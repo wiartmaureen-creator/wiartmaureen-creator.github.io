@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Maureen Wiart · Data Analyst</title>
-  <meta name="description" content="Data analyst portfolio of Maureen Wiart: SQL, Python, R, Power BI and Excel projects, with an audit and financial-crime background.">
+  <meta name="description" content="Data analyst portfolio of Maureen Wiart: five projects in SQL, Excel, Power BI, Python and R, each with the code, its real output and the decision it supports.">
   <meta property="og:title" content="Maureen Wiart · Data Analyst">
-  <meta property="og:description" content="Data analysis with an auditor's eye: SQL, Python, R, Power BI and Excel projects.">
+  <meta property="og:description" content="I turn data into decisions: SQL, Excel, Power BI, Python and R projects with real code output.">
   <meta property="og:type" content="website">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/site.css">
   <script>
     // Apply the saved theme before the first paint to avoid a flash.
@@ -26,6 +26,26 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
+  <div class="utility-bar">
+    <div class="container">
+      <nav class="utility-links" aria-label="Projects by tool">
+        <a href="#project-sql">SQL</a>
+        <a href="#project-excel">Excel</a>
+        <a href="#project-powerbi">Power BI</a>
+        <a href="#project-python">Python</a>
+        <a href="#project-r">R</a>
+      </nav>
+      <div class="utility-social">
+        <a href="https://www.linkedin.com/in/maureen-w-686092191" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4V21H3V9.75Zm6.5 0h3.8v1.6h.06c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.65 4.77 6.1V21h-4v-4.94c0-1.18-.02-2.7-1.65-2.7-1.65 0-1.9 1.29-1.9 2.62V21h-4V9.75Z"/></svg>
+        </a>
+        <a href="#contact" data-email-user="w-maureen" data-email-domain="hotmail.fr" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
   <header class="site-header">
     <div class="container">
       <a class="brand" href="#top" aria-label="Maureen Wiart, home">
@@ -35,9 +55,10 @@
           <span class="brand-role">Data Analyst</span>
         </span>
       </a>
+      <span class="header-note">Open to data analyst roles, remote or Lille · <a href="#contact">Get in touch</a></span>
       <nav class="site-nav" aria-label="Main">
-        <a href="#method">How I work</a>
         <a href="#projects">Projects</a>
+        <a href="#method">How I work</a>
         <a href="#skills">Skills</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
@@ -52,80 +73,69 @@
   <main id="main">
     <!-- Hero -->
     <section class="hero" id="top">
-      <div class="container hero-grid">
-        <div>
-          <span class="eyebrow">Data analyst · Lille, France · Open to remote</span>
-          <h1>I turn data into <span class="highlight">decisions</span>.</h1>
-          <p class="hero-lead">
-            I'm Maureen, a financial auditor at PwC moving into data analytics. I build analyses,
-            reports and dashboards that help managers decide, and I improve the processes behind
-            the numbers. Six years in insurance, banking and audit taught me to start from the
-            business question and to make sure the data can be trusted.
-          </p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="#projects">See my projects</a>
-            <a class="button button-secondary" href="#contact">Get in touch</a>
-          </div>
-        </div>
-
-        <!-- Figures below come from projects/journal-entry-testing/results/summary.json -->
-        <aside class="card feature-card" aria-labelledby="feature-title">
-          <span class="label">Featured project · impact</span>
-          <h3 id="feature-title">Journal entry testing in SQL</h3>
-          <div class="hero-figure">−99%<small> workload</small></div>
-          <p class="feature-caption">From 4,466 journal entries to the 33 that matter, turned into five concrete decisions for management.</p>
-          <div class="feature-stats">
-            <div><strong>30/30</strong><span>anomalies caught</span></div>
-            <div><strong>5</strong><span>decisions</span></div>
-            <div><strong>0.5 s</strong><span>to rerun</span></div>
-          </div>
-          <a class="feature-link" href="projects/journal-entry-testing/">Read the case study →</a>
-        </aside>
-      </div>
-    </section>
-
-    <!-- Key facts -->
-    <section class="section" aria-label="Key facts" style="padding-top: 0;">
-      <div class="container facts">
-        <div class="card fact"><strong>6 years</strong><span>in insurance, banking and audit</span></div>
-        <div class="card fact"><strong>1,000+</strong><span>transactions and supporting documents reviewed at PwC</span></div>
-        <div class="card fact"><strong>5 tools</strong><span>SQL, Python, R, Power BI and Excel, each with its own project</span></div>
-        <div class="card fact"><strong>C1</strong><span>English · French native</span></div>
-      </div>
-    </section>
-
-    <!-- Method -->
-    <section class="section" id="method">
       <div class="container">
-        <div class="section-head">
+        <div class="hero-grid">
           <div>
-            <span class="eyebrow">How I work</span>
-            <h2>From raw data to a decision</h2>
+            <span class="eyebrow">Data analyst · audit &amp; financial crime background</span>
+            <h1>I turn data into <span class="highlight">decisions</span>.</h1>
+            <p class="hero-lead">
+              Analyses, reporting and dashboards that help managers act, and the process changes that follow.
+              Five projects in SQL, Excel, Power BI, Python and R, each with the code, <strong>what the code actually
+              returns</strong>, and the decision it supports.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#projects">Explore the projects</a>
+              <a class="play-link" href="#project-python">
+                <span class="play" aria-hidden="true"><svg viewBox="0 0 10 12"><path d="M0 0l10 6-10 6z"/></svg></span>
+                <span>See the code run</span>
+              </a>
+            </div>
           </div>
-          <p>A dashboard is only useful if it changes what someone does. Every project follows the same four steps, and ends with a recommendation and its impact.</p>
+          <div class="terminal hero-terminal" aria-label="A SQL query from the journal entry testing project and its real result">
+            <div class="terminal-bar"><span class="dots" aria-hidden="true"><span></span><span></span><span></span></span>risk_scoring.sql<span class="label">SQL</span></div>
+            <pre><code class="language-sql" data-code="sql">SELECT entry_number, SUM(weight) AS risk_score ...</code></pre>
+            <div class="terminal-divider"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0l10 6-10 6z"/></svg>Output</div>
+            <pre class="output"><code data-output="sql">Loading the real output...</code></pre>
+          </div>
         </div>
-        <ol class="method-steps">
-          <li class="card">
-            <span class="method-number">01</span>
-            <h3>Frame the decision</h3>
-            <p>Who will use the result, and what will they decide with it? I start from the business question and the KPI that matters.</p>
-          </li>
-          <li class="card">
-            <span class="method-number">02</span>
-            <h3>Make the data reliable</h3>
-            <p>Cleaning, reconciliation and controls. My audit background means the numbers are checked before they are shown.</p>
-          </li>
-          <li class="card">
-            <span class="method-number">03</span>
-            <h3>Analyse and visualise</h3>
-            <p>SQL, Python and R for the analysis; Power BI and Excel for reports and dashboards people actually use.</p>
-          </li>
-          <li class="card">
-            <span class="method-number">04</span>
-            <h3>Recommend and improve</h3>
-            <p>A clear recommendation, its impact in euros or hours, and the process change that stops the problem coming back.</p>
-          </li>
-        </ol>
+
+        <nav class="tool-strip" aria-label="Projects by tool">
+          <a href="#project-sql"><span class="tool-icon" aria-hidden="true">SQL</span><span>Journal entry testing</span></a>
+          <a href="#project-excel"><span class="tool-icon" aria-hidden="true">XL</span><span>Bank reconciliation</span></a>
+          <a href="#project-powerbi"><span class="tool-icon" aria-hidden="true">BI</span><span>Management reporting</span></a>
+          <a href="#project-python"><span class="tool-icon" aria-hidden="true">Py</span><span>Fraud detection</span></a>
+          <a href="#project-r"><span class="tool-icon" aria-hidden="true">R</span><span>Housing prices</span></a>
+        </nav>
+      </div>
+    </section>
+
+    <!-- Highlight cards -->
+    <section class="section" aria-label="Headline results" style="padding-bottom: 0;">
+      <div class="container highlight-cards">
+        <a class="highlight-card hc-light" href="#project-sql">
+          <span class="hc-tool">SQL · Audit</span>
+          <span class="hc-figure">30 / 30</span>
+          <span class="hc-text">planted anomalies caught by 11 audit tests, out of 11,317 ledger lines</span>
+          <span class="hc-link">See the query and its output →</span>
+          <span class="hc-code" aria-hidden="true">GROUP BY entry_number
+ORDER BY risk_score DESC</span>
+        </a>
+        <a class="highlight-card hc-orange" href="#project-powerbi">
+          <span class="hc-tool">Power BI · Reporting</span>
+          <span class="hc-figure">−€457k</span>
+          <span class="hc-text">of margin missing against budget while sales looked on target, and why</span>
+          <span class="hc-link">See the DAX and the dashboard →</span>
+          <span class="hc-code" aria-hidden="true">SAMEPERIODLASTYEAR(
+  dim_date[date])</span>
+        </a>
+        <a class="highlight-card hc-dark" href="#project-python">
+          <span class="hc-tool">Python · Financial crime</span>
+          <span class="hc-figure">≈ €19k</span>
+          <span class="hc-text">saved a month: a third of the fraud alerts, twice the fraud caught</span>
+          <span class="hc-link">See the model's output →</span>
+          <span class="hc-code" aria-hidden="true">model.predict_proba(X)
+&gt;= threshold</span>
+        </a>
       </div>
     </section>
 
@@ -135,67 +145,292 @@
         <div class="section-head">
           <div>
             <span class="eyebrow">Projects</span>
-            <h2>Real questions, answered with data</h2>
+            <h2>The code, its output, the decision</h2>
           </div>
-          <p>Each project starts from a decision someone has to make and ends with a recommendation and its impact. Code, data and method are all published.</p>
+          <p>Pick a project. Each one shows the business question, the objectives, a piece of the code next to what that code really returned, and the decision it led to.</p>
         </div>
 
-        <div class="project-grid">
-          <a class="card project-card is-featured" href="projects/journal-entry-testing/">
-            <div class="project-snippet" aria-hidden="true"><span class="k">WHERE</span> e.created_at &gt; p.closing_date <span class="k">AND</span> e.entry_date &lt;= p.fy_end</div>
-            <div class="project-body">
-              <div class="chip-list"><span class="chip chip-accent">SQL</span><span class="chip">Python</span><span class="chip">Audit</span><span class="chip">Fraud risk</span></div>
-              <h3>Journal entry testing: from 4,466 entries to 5 decisions</h3>
-              <p>Which entries in a company's ledger need a closer look, and what should management do about them? A repeatable SQL toolkit that scores every entry by risk and turns the findings into decisions and process fixes.</p>
-              <p class="project-result"><strong>−99%</strong> review workload (33 entries instead of 4,466) · <strong>30/30</strong> planted anomalies caught · <strong>€85k</strong> of unsupported revenue flagged</p>
-              <div class="project-meta"><span class="status status-live">Case study online</span><span class="chip">SQLite · window functions · Benford's law</span></div>
+        <div class="project-tabs" data-project-tabs>
+          <div class="tabs-bar">
+            <button class="tab-arrow" type="button" data-tab-step="-1" aria-label="Previous project">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <div class="tabs-scroll" role="tablist" aria-label="Projects">
+              <button class="project-tab" role="tab" id="tab-sql" aria-controls="project-sql" aria-selected="true">
+                <span class="pt-tool">01 · SQL</span><span class="pt-title">Journal entry testing</span>
+              </button>
+              <button class="project-tab" role="tab" id="tab-excel" aria-controls="project-excel" aria-selected="false" tabindex="-1">
+                <span class="pt-tool">02 · Excel</span><span class="pt-title">Bank reconciliation</span>
+              </button>
+              <button class="project-tab" role="tab" id="tab-powerbi" aria-controls="project-powerbi" aria-selected="false" tabindex="-1">
+                <span class="pt-tool">03 · Power BI</span><span class="pt-title">Management reporting</span>
+              </button>
+              <button class="project-tab" role="tab" id="tab-python" aria-controls="project-python" aria-selected="false" tabindex="-1">
+                <span class="pt-tool">04 · Python</span><span class="pt-title">Fraud detection</span>
+              </button>
+              <button class="project-tab" role="tab" id="tab-r" aria-controls="project-r" aria-selected="false" tabindex="-1">
+                <span class="pt-tool">05 · R</span><span class="pt-title">Lille housing prices</span>
+              </button>
             </div>
-          </a>
+            <button class="tab-arrow" type="button" data-tab-step="1" aria-label="Next project">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
 
-          <a class="card project-card" href="projects/sales-dashboard-powerbi/">
-            <div class="project-snippet" aria-hidden="true">Net Sales LY = <span class="f">CALCULATE</span>([Net Sales], <span class="f">SAMEPERIODLASTYEAR</span>(dim_date[date]))</div>
-            <div class="project-body">
-              <div class="chip-list"><span class="chip chip-accent">Power BI</span><span class="chip">DAX</span><span class="chip">Reporting</span></div>
-              <h3>Management reporting: sales on budget, margin is not</h3>
-              <p>A Power BI dashboard (star schema, 21 DAX measures) that looks past "on budget" sales and finds where the margin went.</p>
-              <p class="project-result"><strong>−€457k</strong> margin vs budget explained · <strong>4 decisions</strong> for management · live web version</p>
-              <div class="project-meta"><span class="status status-live">Case study online</span></div>
+          <!-- 01 SQL -->
+          <article class="project-panel" role="tabpanel" id="project-sql" aria-labelledby="tab-sql">
+            <div class="panel-grid">
+              <div class="panel-text">
+                <div class="chip-list"><span class="chip chip-accent">SQL</span><span class="chip">SQLite</span><span class="chip">Python</span><span class="chip">Audit</span></div>
+                <h3>Journal entry testing: from 4,466 entries to five decisions</h3>
+                <span class="panel-label">The question</span>
+                <p>Every financial audit tests journal entries for fraud and error. Which entries of a company's general ledger deserve a closer look, and what should management do about them?</p>
+                <span class="panel-label">Objectives</span>
+                <ul class="objectives">
+                  <li>Run 11 audit tests (ISA 240) on a full ledger in one pass</li>
+                  <li>Keep every threshold in one parameter table, nothing hard-coded</li>
+                  <li>Rank entries by risk so the review starts with the worst</li>
+                  <li>Prove the tests work against 30 anomalies planted on purpose</li>
+                </ul>
+                <span class="panel-label">Results produced by the code</span>
+                <div class="panel-kpis">
+                  <div class="panel-kpi"><strong>30 / 30</strong><span>planted anomalies detected</span></div>
+                  <div class="panel-kpi"><strong>−99%</strong><span>review workload (33 entries)</span></div>
+                  <div class="panel-kpi"><strong>€85k</strong><span>manual revenue flagged</span></div>
+                  <div class="panel-kpi"><strong>0.5 s</strong><span>to rerun the 11 tests</span></div>
+                </div>
+                <p class="panel-decision"><strong>Decision:</strong> do not sign off the accounts until the CFO's €85,450 of year-end manual revenue and the €70,165 of profit added after closing are supported, and lock the period in the ERP.</p>
+                <div class="panel-actions">
+                  <a class="button button-primary" href="projects/journal-entry-testing/">Full case study</a>
+                  <a class="button button-secondary" href="projects/journal-entry-testing/README.md">Code and data</a>
+                </div>
+              </div>
+              <div>
+                <div class="terminal">
+                  <div class="terminal-bar"><span class="dots" aria-hidden="true"><span></span><span></span><span></span></span>sql/risk_scoring.sql<span class="label" data-label="sql">SQL</span></div>
+                  <pre><code class="language-sql" data-code="sql"></code></pre>
+                  <div class="terminal-divider"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0l10 6-10 6z"/></svg>What the query returns</div>
+                  <pre class="output"><code data-output="sql"></code></pre>
+                  <div class="terminal-source" data-source="sql"></div>
+                </div>
+                <figure class="figure panel-figure">
+                  <a class="figure-frame" href="projects/journal-entry-testing/images/hits_per_test.png" target="_blank" rel="noopener">
+                    <img src="projects/journal-entry-testing/images/hits_per_test.png" alt="Bar chart drawn by the project's code: entries flagged by each of the 11 SQL tests, planted cases versus other hits" loading="lazy" width="1080" height="660">
+                  </a>
+                  <figcaption><span>Chart drawn by <code>src/plot_results.py</code> from the query results</span></figcaption>
+                </figure>
+              </div>
             </div>
-          </a>
+            <div class="panel-next"><button class="button button-secondary" type="button" data-tab-step="1">Next project: Excel →</button></div>
+          </article>
 
-          <a class="card project-card" href="projects/bank-reconciliation/">
-            <div class="project-snippet" aria-hidden="true">=<span class="f">INDEX</span>(tblLedger[Entry], <span class="f">MATCH</span>(1, <span class="f">INDEX</span>((tblLedger[Amount]=[@Amount])*(…), 0), 0))</div>
-            <div class="project-body">
-              <div class="chip-list"><span class="chip chip-accent">Excel</span><span class="chip">Power Query</span><span class="chip">Process</span></div>
-              <h3>Automated bank reconciliation</h3>
-              <p>Ticking a month of bank lines against the ledger takes hours. A reusable workbook does the matching and lists only what needs a decision.</p>
-              <p class="project-result"><strong>96.9%</strong> of 229 bank lines matched automatically · <strong>€0.00</strong> unexplained · <strong>16 items</strong> to act on</p>
-              <div class="project-meta"><span class="status status-live">Case study online</span></div>
+          <!-- 02 Excel -->
+          <article class="project-panel" role="tabpanel" id="project-excel" aria-labelledby="tab-excel" hidden>
+            <div class="panel-grid">
+              <div class="panel-text">
+                <div class="chip-list"><span class="chip chip-accent">Excel</span><span class="chip">Power Query</span><span class="chip">INDEX/MATCH</span><span class="chip">Process</span></div>
+                <h3>Automated bank reconciliation: 229 lines, 16 decisions</h3>
+                <span class="panel-label">The question</span>
+                <p>Every month, finance teams tick bank lines against the ledger by hand. How much can a workbook do on its own, and what is left for a human to decide?</p>
+                <span class="panel-label">Objectives</span>
+                <ul class="objectives">
+                  <li>Import the bank's French CSV and the ledger with Power Query</li>
+                  <li>Match lines by reference, then by amount and date</li>
+                  <li>Produce the reconciliation statement with integrity checks</li>
+                  <li>List only the items to explain, each with a proposed action</li>
+                </ul>
+                <span class="panel-label">Results produced by the workbook</span>
+                <div class="panel-kpis">
+                  <div class="panel-kpi"><strong>96.9%</strong><span>bank lines matched automatically</span></div>
+                  <div class="panel-kpi"><strong>€0.00</strong><span>unexplained difference</span></div>
+                  <div class="panel-kpi"><strong>16</strong><span>items to explain instead of 229</span></div>
+                  <div class="panel-kpi"><strong>16 / 16</strong><span>planted reconciling items found</span></div>
+                </div>
+                <p class="panel-decision"><strong>Decision:</strong> recover €810 overpaid to a supplier (two digits swapped), book the €1,284 insurance debit as a 2026 prepaid expense, and ask the bank to keep ERP references in transfer labels.</p>
+                <div class="panel-actions">
+                  <a class="button button-primary" href="projects/bank-reconciliation/">Full case study</a>
+                  <a class="button button-secondary" href="projects/bank-reconciliation/bank_reconciliation.xlsx">Download the workbook</a>
+                </div>
+              </div>
+              <div>
+                <div class="terminal">
+                  <div class="terminal-bar"><span class="dots" aria-hidden="true"><span></span><span></span><span></span></span>bank_reconciliation.xlsx<span class="label">EXCEL</span></div>
+                  <pre><code class="language-plaintext" data-code="excel"></code></pre>
+                  <div class="terminal-divider"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0l10 6-10 6z"/></svg>What Excel calculates</div>
+                  <pre class="output"><code data-output="excel"></code></pre>
+                  <div class="terminal-source" data-source="excel"></div>
+                </div>
+                <figure class="figure panel-figure">
+                  <a class="figure-frame" href="projects/bank-reconciliation/images/actions.png" target="_blank" rel="noopener">
+                    <img src="projects/bank-reconciliation/images/actions.png" alt="Screenshot of the workbook's Actions sheet: the 16 items to explain with amount, category and proposed action" loading="lazy" width="1831" height="453">
+                  </a>
+                  <figcaption><span>The Actions sheet, filled by the workbook's formulas</span></figcaption>
+                </figure>
+              </div>
             </div>
-          </a>
+            <div class="panel-next"><button class="button button-secondary" type="button" data-tab-step="1">Next project: Power BI →</button></div>
+          </article>
 
-          <a class="card project-card" href="projects/fraud-detection-python/">
-            <div class="project-snippet" aria-hidden="true">cost = alerts * REVIEW_COST + amount[~flags &amp; fraud].<span class="f">sum</span>()</div>
-            <div class="project-body">
-              <div class="chip-list"><span class="chip chip-accent">Python</span><span class="chip">pandas</span><span class="chip">scikit-learn</span><span class="chip">Financial crime</span></div>
-              <h3>Fraud detection: a third of the alerts, twice the fraud caught</h3>
-              <p>Rules vs machine learning on 241,831 card payments, with the alert threshold chosen in euros: review cost against fraud missed.</p>
-              <p class="project-result"><strong>13</strong> alerts a day instead of 43 · <strong>87%</strong> of fraud € caught instead of 44% · <strong>≈ €19k</strong> saved a month</p>
-              <div class="project-meta"><span class="status status-live">Case study online</span><span class="chip">Jupyter notebook</span></div>
+          <!-- 03 Power BI -->
+          <article class="project-panel" role="tabpanel" id="project-powerbi" aria-labelledby="tab-powerbi" hidden>
+            <div class="panel-grid">
+              <div class="panel-text">
+                <div class="chip-list"><span class="chip chip-accent">Power BI</span><span class="chip">DAX</span><span class="chip">Star schema</span><span class="chip">Reporting</span></div>
+                <h3>Management reporting: sales on budget, margin is not</h3>
+                <span class="panel-label">The question</span>
+                <p>A retail chain's monthly report says "on budget". Are we making the margin we planned, and if not, where should management act first?</p>
+                <span class="panel-label">Objectives</span>
+                <ul class="objectives">
+                  <li>Model daily sales and the monthly budget as a star schema</li>
+                  <li>Define every KPI once, as a DAX measure (21 measures)</li>
+                  <li>Build three pages managers can explore on their own</li>
+                  <li>Turn the findings into a memo with amounts at stake</li>
+                </ul>
+                <span class="panel-label">Results produced by the model</span>
+                <div class="panel-kpis">
+                  <div class="panel-kpi"><strong>+0.4%</strong><span>net sales vs budget</span></div>
+                  <div class="panel-kpi"><strong>−€457k</strong><span>gross margin vs budget</span></div>
+                  <div class="panel-kpi"><strong>−€481k</strong><span>margin lost to one promotion</span></div>
+                  <div class="panel-kpi"><strong>−18%</strong><span>Metz store vs budget</span></div>
+                </div>
+                <p class="panel-decision"><strong>Decision:</strong> no blanket 22% barbecue discount next summer, a local plan for the Metz store, better online furniture pages to cut a 9% return rate, more space for outdoor lighting.</p>
+                <div class="panel-actions">
+                  <a class="button button-primary" href="projects/sales-dashboard-powerbi/">Full case study + live dashboard</a>
+                  <a class="button button-secondary" href="projects/sales-dashboard-powerbi/README.md">Power BI project</a>
+                </div>
+              </div>
+              <div>
+                <div class="terminal">
+                  <div class="terminal-bar"><span class="dots" aria-hidden="true"><span></span><span></span><span></span></span>DAX query · CalyxReporting<span class="label">DAX</span></div>
+                  <pre><code class="language-plaintext" data-code="powerbi"></code></pre>
+                  <div class="terminal-divider"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0l10 6-10 6z"/></svg>What the Power BI engine returns</div>
+                  <pre class="output"><code data-output="powerbi"></code></pre>
+                  <div class="terminal-source" data-source="powerbi"></div>
+                </div>
+                <figure class="figure panel-figure">
+                  <a class="figure-frame" href="projects/sales-dashboard-powerbi/images/pbi_overview.png" target="_blank" rel="noopener">
+                    <img src="projects/sales-dashboard-powerbi/images/pbi_overview.png" alt="Power BI Overview page: net sales 55M, +6.4% vs last year, gross margin 43.6%, -457K vs budget, monthly trend, growth by category and store table" loading="lazy" width="1380" height="776">
+                  </a>
+                  <figcaption><span>The Overview page in Power BI Desktop</span></figcaption>
+                </figure>
+              </div>
             </div>
-          </a>
+            <div class="panel-next"><button class="button button-secondary" type="button" data-tab-step="1">Next project: Python →</button></div>
+          </article>
 
-          <a class="card project-card" href="projects/lille-housing-prices/">
-            <div class="project-snippet" aria-hidden="true"><span class="f">lm</span>(<span class="f">log</span>(price_m2) ~ <span class="f">factor</span>(year) + type + <span class="f">log</span>(surface) + rooms + commune)</div>
-            <div class="project-body">
-              <div class="chip-list"><span class="chip chip-accent">R</span><span class="chip">tidyverse</span><span class="chip">Public data</span></div>
-              <h3>What drives housing prices in Lille? Real sales, public data</h3>
-              <p>76,047 property sales from the tax administration's open data: a quality-adjusted price index, location effects and a model that flags sales far from market value.</p>
-              <p class="project-result"><strong>2.2×</strong> price per m² between Lille and Roubaix · prices back to their <strong>2021</strong> level · AML screening use case</p>
-              <div class="project-meta"><span class="status status-live">Case study online</span><span class="chip">R Markdown report</span></div>
+          <!-- 04 Python -->
+          <article class="project-panel" role="tabpanel" id="project-python" aria-labelledby="tab-python" hidden>
+            <div class="panel-grid">
+              <div class="panel-text">
+                <div class="chip-list"><span class="chip chip-accent">Python</span><span class="chip">pandas</span><span class="chip">scikit-learn</span><span class="chip">Financial crime</span></div>
+                <h3>Fraud detection: a third of the alerts, twice the fraud caught</h3>
+                <span class="panel-label">The question</span>
+                <p>A payment provider's fraud team drowns in false alerts while half of the fraud gets through. Which payments should it review, so that fraud losses plus review costs are as low as possible?</p>
+                <span class="panel-label">Objectives</span>
+                <ul class="objectives">
+                  <li>Build behavioural features from each customer's past payments only</li>
+                  <li>Compare the current rules with two machine learning models</li>
+                  <li>Choose the alert threshold in euros, not in model scores</li>
+                  <li>Explain what drives the alerts</li>
+                </ul>
+                <span class="panel-label">Results produced by the code</span>
+                <div class="panel-kpis">
+                  <div class="panel-kpi"><strong>13 / day</strong><span>alerts instead of 43</span></div>
+                  <div class="panel-kpi"><strong>87%</strong><span>of fraud amount caught (vs 44%)</span></div>
+                  <div class="panel-kpi"><strong>33%</strong><span>of alerts are real fraud (vs 5%)</span></div>
+                  <div class="panel-kpi"><strong>≈ €19k</strong><span>saved a month</span></div>
+                </div>
+                <p class="panel-decision"><strong>Decision:</strong> replace the three rules with the gradient boosting model after a two-week shadow run, set the threshold from the team's capacity, keep a safety-net rule for very large payments.</p>
+                <div class="panel-actions">
+                  <a class="button button-primary" href="projects/fraud-detection-python/">Full case study</a>
+                  <a class="button button-secondary" href="projects/fraud-detection-python/notebooks/fraud_detection.ipynb">Jupyter notebook</a>
+                </div>
+              </div>
+              <div>
+                <div class="terminal">
+                  <div class="terminal-bar"><span class="dots" aria-hidden="true"><span></span><span></span><span></span></span>src/fraud_pipeline.py<span class="label">PYTHON</span></div>
+                  <pre><code class="language-python" data-code="python"></code></pre>
+                  <div class="terminal-divider"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0l10 6-10 6z"/></svg>What the script prints</div>
+                  <pre class="output"><code data-output="python"></code></pre>
+                  <div class="terminal-source" data-source="python"></div>
+                </div>
+                <figure class="figure panel-figure">
+                  <a class="figure-frame" href="projects/fraud-detection-python/images/precision_recall.png" target="_blank" rel="noopener">
+                    <img src="projects/fraud-detection-python/images/precision_recall.png" alt="Precision-recall curves drawn by the script: gradient boosting above logistic regression, current rules far below" loading="lazy" width="960" height="630">
+                  </a>
+                  <figcaption><span>Precision-recall curves drawn by the same script (matplotlib)</span></figcaption>
+                </figure>
+              </div>
             </div>
-          </a>
+            <div class="panel-next"><button class="button button-secondary" type="button" data-tab-step="1">Next project: R →</button></div>
+          </article>
+
+          <!-- 05 R -->
+          <article class="project-panel" role="tabpanel" id="project-r" aria-labelledby="tab-r" hidden>
+            <div class="panel-grid">
+              <div class="panel-text">
+                <div class="chip-list"><span class="chip chip-accent">R</span><span class="chip">tidyverse</span><span class="chip">Regression</span><span class="chip">Public data</span></div>
+                <h3>What drives housing prices in Lille? Real sales, public data</h3>
+                <span class="panel-label">The question</span>
+                <p>Buyers, banks and compliance teams all ask: is this price in line with the market? An analysis of every recorded flat and house sale in the Lille metropolitan area, 2021–2025.</p>
+                <span class="panel-label">Objectives</span>
+                <ul class="objectives">
+                  <li>Clean the public DVF records into reliable prices per m²</li>
+                  <li>Build a quality-adjusted price index with a regression</li>
+                  <li>Measure how much location matters</li>
+                  <li>Estimate prices and flag sales far from the market</li>
+                </ul>
+                <span class="panel-label">Results produced by the code</span>
+                <div class="panel-kpis">
+                  <div class="panel-kpi"><strong>76,047</strong><span>sales analysed (real data)</span></div>
+                  <div class="panel-kpi"><strong>100.4</strong><span>price index 2025 (2021 = 100)</span></div>
+                  <div class="panel-kpi"><strong>2.2×</strong><span>price per m², Lille vs Roubaix</span></div>
+                  <div class="panel-kpi"><strong>±21%</strong><span>typical valuation error</span></div>
+                </div>
+                <p class="panel-decision"><strong>Decision support:</strong> a cheap first screen for banks (collateral far above market) and compliance teams (purchases far from market value, a classic money-laundering red flag).</p>
+                <div class="panel-actions">
+                  <a class="button button-primary" href="projects/lille-housing-prices/">Full case study</a>
+                  <a class="button button-secondary" href="projects/lille-housing-prices/report/lille_housing.html">R Markdown report</a>
+                </div>
+              </div>
+              <div>
+                <div class="terminal">
+                  <div class="terminal-bar"><span class="dots" aria-hidden="true"><span></span><span></span><span></span></span>R/02_analysis.R<span class="label">R</span></div>
+                  <pre><code class="language-r" data-code="r"></code></pre>
+                  <div class="terminal-divider"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0l10 6-10 6z"/></svg>What the R console prints</div>
+                  <pre class="output"><code data-output="r"></code></pre>
+                  <div class="terminal-source" data-source="r"></div>
+                </div>
+                <figure class="figure panel-figure">
+                  <a class="figure-frame" href="projects/lille-housing-prices/images/map.png" target="_blank" rel="noopener">
+                    <img src="projects/lille-housing-prices/images/map.png" alt="Map drawn by the R script: every 2024-2025 sale coloured by price per square metre, darkest in central Lille" loading="lazy" width="1050" height="900">
+                  </a>
+                  <figcaption><span>Map drawn by the same script (ggplot2)</span></figcaption>
+                </figure>
+              </div>
+            </div>
+            <div class="panel-next"><button class="button button-secondary" type="button" data-tab-step="1">Back to the first project →</button></div>
+          </article>
         </div>
+      </div>
+    </section>
+
+    <!-- Method -->
+    <section class="section section-cream" id="method">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">How I work</span>
+            <h2>From raw data to a decision</h2>
+          </div>
+          <p>A dashboard is only useful if it changes what someone does. Every project follows the same four steps, and ends with a recommendation and its impact.</p>
+        </div>
+        <ol class="method-steps">
+          <li class="card"><span class="method-number">01</span><h3>Frame the decision</h3><p>Who will use the result, and what will they decide with it? I start from the business question and the KPI that matters.</p></li>
+          <li class="card"><span class="method-number">02</span><h3>Make the data reliable</h3><p>Cleaning, reconciliation and controls. My audit background means the numbers are checked before they are shown.</p></li>
+          <li class="card"><span class="method-number">03</span><h3>Analyse and visualise</h3><p>SQL, Python and R for the analysis; Power BI and Excel for reports and dashboards people actually use.</p></li>
+          <li class="card"><span class="method-number">04</span><h3>Recommend and improve</h3><p>A clear recommendation, its impact in euros or hours, and the process change that stops the problem coming back.</p></li>
+        </ol>
       </div>
     </section>
 
@@ -263,7 +498,7 @@
     </section>
 
     <!-- About -->
-    <section class="section" id="about">
+    <section class="section section-cream" id="about">
       <div class="container about-grid">
         <div>
           <span class="eyebrow">About</span>
@@ -272,13 +507,13 @@
             I started in insurance operations, moved to business banking and internal audit,
             and I now work as a financial auditor at PwC. In every role the useful answers were
             hidden in the data: in contract files, in client onboarding records, in thousands of
-            transactions.
+            transactions. At Banque Populaire du Nord I began analysing audit data with SQL and Power BI.
           </p>
-          <p class="muted">
-            At Banque Populaire du Nord I began analysing audit data with SQL and Power BI.
-            This portfolio shows where that has taken me: projects that start from a real
-            business question and end with a result someone can act on.
-          </p>
+          <div class="about-stats">
+            <div><strong>6 years</strong><span>in insurance, banking and audit</span></div>
+            <div><strong>1,000+</strong><span>transactions reviewed at PwC</span></div>
+            <div><strong>C1</strong><span>English · French native</span></div>
+          </div>
           <div class="credentials">
             <div class="card"><strong>Master's in Management Control, Audit &amp; Information Systems</strong><span>SKEMA Business School · Artificial intelligence specialisation · 2025</span></div>
             <div class="card"><strong>Master's in Money, Banking, Finance &amp; Insurance</strong><span>Université de Lille · 2023–2024</span></div>
@@ -288,31 +523,11 @@
         <div>
           <h3 style="margin-top: 6px;">Experience</h3>
           <ol class="timeline">
-            <li class="is-current">
-              <span class="when">Sept 2025 – present</span>
-              <span class="what">Financial Auditor</span>
-              <span class="where">PwC · Lille</span>
-            </li>
-            <li>
-              <span class="when">Sept 2024 – Aug 2025</span>
-              <span class="what">Internal Auditor (apprenticeship)</span>
-              <span class="where">Banque Populaire du Nord · Lille · data analysis with SQL and Power BI</span>
-            </li>
-            <li>
-              <span class="when">Sept 2023 – Aug 2024</span>
-              <span class="what">Business Banking Advisor (apprenticeship)</span>
-              <span class="where">Crédit Coopératif · Lille · KYC/KYB onboarding of business clients</span>
-            </li>
-            <li>
-              <span class="when">Sept 2020 – Aug 2023</span>
-              <span class="what">Insurance Operations, promoted in 2022</span>
-              <span class="where">BPCE Assurances · Lens · compliance review of 50+ contracts a day</span>
-            </li>
-            <li>
-              <span class="when">2018</span>
-              <span class="what">Bachelor's in Banking &amp; Insurance</span>
-              <span class="where">Université Polytechnique Hauts-de-France</span>
-            </li>
+            <li class="is-current"><span class="when">Sept 2025 – present</span><span class="what">Financial Auditor</span><span class="where">PwC · Lille</span></li>
+            <li><span class="when">Sept 2024 – Aug 2025</span><span class="what">Internal Auditor (apprenticeship)</span><span class="where">Banque Populaire du Nord · Lille · data analysis with SQL and Power BI</span></li>
+            <li><span class="when">Sept 2023 – Aug 2024</span><span class="what">Business Banking Advisor (apprenticeship)</span><span class="where">Crédit Coopératif · Lille · KYC/KYB onboarding of business clients</span></li>
+            <li><span class="when">Sept 2020 – Aug 2023</span><span class="what">Insurance Operations, promoted in 2022</span><span class="where">BPCE Assurances · Lens · compliance review of 50+ contracts a day</span></li>
+            <li><span class="when">2018</span><span class="what">Bachelor's in Banking &amp; Insurance</span><span class="where">Université Polytechnique Hauts-de-France</span></li>
           </ol>
         </div>
       </div>
@@ -321,18 +536,18 @@
     <!-- Contact -->
     <section class="section" id="contact">
       <div class="container">
-        <div class="card contact-card">
+        <div class="contact-band">
           <div>
             <span class="eyebrow">Contact</span>
             <h2>Looking for a data analyst?</h2>
             <p>I'm open to data analyst roles, remote or in the Lille area. The quickest way to reach me is LinkedIn or email.</p>
           </div>
           <div class="contact-actions">
-            <a class="button button-primary" href="https://www.linkedin.com/in/maureen-w-686092191" target="_blank" rel="noopener">
+            <a class="button button-orange" href="https://www.linkedin.com/in/maureen-w-686092191" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4V21H3V9.75Zm6.5 0h3.8v1.6h.06c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.65 4.77 6.1V21h-4v-4.94c0-1.18-.02-2.7-1.65-2.7-1.65 0-1.9 1.29-1.9 2.62V21h-4V9.75Z"/></svg>
               LinkedIn
             </a>
-            <a class="button button-secondary" href="#contact" data-email-user="w-maureen" data-email-domain="hotmail.fr">
+            <a class="button button-light" href="#contact" data-email-user="w-maureen" data-email-domain="hotmail.fr">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
               Email
             </a>
@@ -345,10 +560,13 @@
   <footer class="site-footer">
     <div class="container">
       <span>© <span data-current-year>2026</span> Maureen Wiart</span>
-      <span>All project data is synthetic or public. No client or employer data is used.</span>
+      <span>All data is synthetic, except the public DVF property records. No client or employer data is used.</span>
     </div>
   </footer>
 
+  <script src="assets/data/code_outputs.js"></script>
   <script src="assets/js/site.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="assets/js/home.js"></script>
 </body>
 </html>

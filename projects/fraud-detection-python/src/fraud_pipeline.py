@@ -264,7 +264,7 @@ def main():
     print(f"Test months: {len(test):,} payments, {int(test['is_fraud'].sum())} fraudulent, {test_days} days")
     print(f"{'Approach':<22}{'AP':>7}{'Alerts/day':>12}{'Recall #':>10}{'Recall EUR':>12}{'Precision':>11}{'Total cost':>12}")
     for approach in summary["approaches"]:
-        print(f"{approach['name']:<22}{approach.get('average_precision', float('nan')):>7.3f}"
+        print(f"{approach['name']:<22}{(format(approach['average_precision'], '.3f') if 'average_precision' in approach else '-'):>7}"
               f"{approach['alerts_per_day']:>12.1f}{approach['recall_count']:>10.1%}{approach['recall_amount']:>12.1%}"
               f"{approach['precision']:>11.1%}{approach['total_cost']:>12,.0f}")
     print(f"Best: {best_name} (threshold {best['threshold']}); saves {summary['savings_vs_rules_test']:,.0f} EUR "

@@ -23,6 +23,9 @@ Each project starts from a decision someone has to make and ends with a recommen
 - `index.html` and `assets/`: the website (plain HTML, CSS and JavaScript, no build step, no tracking).
 - `projects/<name>/`: one folder per project, with its case-study page (`index.html`), a `README.md`,
   the code, the data and the results. Each project can be rerun from its README.
+- `tools/capture_code_outputs.py`: reruns a piece of each project and saves what the code actually
+  returns (SQL result, Excel statement, DAX result, Python and R console output) to
+  `assets/data/code_outputs.js`. The home page shows those real outputs next to the code.
 
 All data is synthetic, except the public DVF property records (Etalab / DGFiP, Licence Ouverte 2.0).
 No client or employer data is used.
