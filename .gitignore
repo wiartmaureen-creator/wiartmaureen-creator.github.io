@@ -1,0 +1,28 @@
+# Generated databases (rebuilt by each project's scripts)
+output/
+*.db
+
+# Raw public data downloaded by the R project (about 15 MB, re-downloaded by R/01_prepare_data.R)
+projects/lille-housing-prices/data/raw/
+
+# Power BI Desktop local files
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+
+# Office lock files
+~$*
+
+# OS
+Thumbs.db
+.DS_Store

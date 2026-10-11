@@ -1,0 +1,4 @@
+entry_number,journal_code,entry_date,created_at,created_by,job_title,issue,amount,description
+MISC25-00043,MISC,2025-12-19,2025-12-19 17:25:41,hbernard,Sales manager,User has no posting rights,2400.0,Commercial gesture - customer C022
+MISC25-00044,MISC,2025-12-22,2025-12-22 16:02:19,hbernard,Sales manager,User has no posting rights,1980.0,Commercial gesture - customer C005
+MISC25-00045,MISC,2025-12-23,2025-12-23 12:47:55,hbernard,Sales manager,User has no posting rights,3150.0,Commercial gesture - customer C022

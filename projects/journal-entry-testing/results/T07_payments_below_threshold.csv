@@ -1,0 +1,7 @@
+entry_number,entry_date,supplier,payment_amount,pct_of_threshold,near_threshold_payments_to_supplier,total_paid_in_these_payments,created_by,description
+BNK25-01752,2025-11-24,S038,9894.0,98.9,4,39576.0,jmartin,Supplier payment S038 - S038-40211
+BNK25-01760,2025-11-25,S038,9894.0,98.9,4,39576.0,jmartin,Supplier payment S038 - S038-40211
+BNK25-01774,2025-11-26,S038,9894.0,98.9,4,39576.0,jmartin,Supplier payment S038 - S038-40211
+BNK25-01783,2025-11-27,S038,9894.0,98.9,4,39576.0,jmartin,Supplier payment S038 - S038-40211
+BNK25-01438,2025-10-08,S002,9779.17,97.8,1,9779.17,jmartin,Supplier payment S002 - S002-26720
+BNK25-01935,2025-12-19,S008,9573.08,95.7,1,9573.08,jmartin,Supplier payment S008 - S008-37617

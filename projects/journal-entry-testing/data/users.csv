@@ -1,0 +1,8 @@
+user_id,full_name,job_title,is_system,posting_allowed
+ERP_BATCH,Invoicing interface,System account,1,1
+jmartin,Julie Martin,Accounts payable accountant,0,1
+sdubois,Samuel Dubois,Accounts receivable accountant,0,1
+lpetit,Lea Petit,Payroll officer,0,1
+cmoreau,Claire Moreau,Chief accountant,0,1
+ftessier,Franck Tessier,Chief financial officer,0,1
+hbernard,Hugo Bernard,Sales manager,0,0

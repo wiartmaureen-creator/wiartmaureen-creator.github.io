@@ -1,0 +1,6 @@
+journal_code,journal_label,is_manual
+SAL,Sales (invoicing system interface),0
+PUR,Purchases,0
+BNK,Bank,0
+PAY,Payroll,0
+MISC,General journal (manual entries),1

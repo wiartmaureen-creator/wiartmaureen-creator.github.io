@@ -1,0 +1,23 @@
+relationship f388640b-2ebd-5663-9fff-4eef503de325
+	fromColumn: fact_sales.date
+	toColumn: dim_date.date
+
+relationship aad956b0-e7cb-5114-b50b-fda083a9ffe4
+	fromColumn: fact_sales.store_id
+	toColumn: dim_store.store_id
+
+relationship 15dd314a-6ab4-58d7-b608-545ebbcb47b8
+	fromColumn: fact_sales.category_id
+	toColumn: dim_category.category_id
+
+relationship 1a331e09-5e36-519c-a406-b527337ce931
+	fromColumn: fact_budget.month_start
+	toColumn: dim_date.date
+
+relationship 34496533-e8de-59d7-96d0-ad2721981e0d
+	fromColumn: fact_budget.store_id
+	toColumn: dim_store.store_id
+
+relationship 55891061-4858-52e8-af1e-e2327b4dfceb
+	fromColumn: fact_budget.category_id
+	toColumn: dim_category.category_id

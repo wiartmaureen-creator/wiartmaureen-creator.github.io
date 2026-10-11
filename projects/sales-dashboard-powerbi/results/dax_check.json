@@ -1,0 +1,120 @@
+﻿{
+    "totals":  {
+                   "[Net Sales]":  55258086.38,
+                   "[Net Sales LY]":  51926297.1,
+                   "[Net Sales YoY %]":  0.064163814215052142,
+                   "[Gross Margin %]":  0.43639825317454289,
+                   "[Gross Margin % LY]":  0.44681075612456872,
+                   "[Budget]":  55053100,
+                   "[Net Sales vs Budget %]":  0.0037234302882127018,
+                   "[Gross Margin vs Budget]":  -456867.62999999896,
+                   "[Discount Rate]":  0.089566193210309633,
+                   "[Rows]":  26082
+               },
+    "categories":  [
+                       {
+                           "dim_category[category]":  "Garden furniture",
+                           "[Net Sales]":  11812730.67,
+                           "[YoY]":  0.035383940201724834,
+                           "[GM pts]":  -0.075763964600028544,
+                           "[Units YoY]":  0.037731398135157621
+                       },
+                       {
+                           "dim_category[category]":  "Plants \u0026 seeds",
+                           "[Net Sales]":  12976347.01,
+                           "[YoY]":  0.036239404573723148,
+                           "[GM pts]":  -0.071437213919123277,
+                           "[Units YoY]":  0.037100431526871883
+                       },
+                       {
+                           "dim_category[category]":  "Garden tools",
+                           "[Net Sales]":  7557072.49,
+                           "[YoY]":  0.044030509575185527,
+                           "[GM pts]":  -0.059815067897550644,
+                           "[Units YoY]":  0.044802342606149341
+                       },
+                       {
+                           "dim_category[category]":  "Barbecues \u0026 outdoor cooking",
+                           "[Net Sales]":  6499806.7,
+                           "[YoY]":  0.043135627864080282,
+                           "[GM pts]":  -8.3345789676630471,
+                           "[Units YoY]":  0.17201137265273736
+                       },
+                       {
+                           "dim_category[category]":  "Home decor",
+                           "[Net Sales]":  9734892.25,
+                           "[YoY]":  0.043047592766620679,
+                           "[GM pts]":  -0.062152582700014669,
+                           "[Units YoY]":  0.043705573589597278
+                       },
+                       {
+                           "dim_category[category]":  "Outdoor lighting",
+                           "[Net Sales]":  6677237.26,
+                           "[YoY]":  0.28601050747075829,
+                           "[GM pts]":  -0.07617568562378052,
+                           "[Units YoY]":  0.28717037251985927
+                       }
+                   ],
+    "stores":  [
+                   {
+                       "dim_store[store_name]":  "Lille",
+                       "[vs Budget]":  0.0026277062191995106,
+                       "[Return Rate]":  0.011999970094422264
+                   },
+                   {
+                       "dim_store[store_name]":  "Arras",
+                       "[vs Budget]":  0.0083446550487888231,
+                       "[Return Rate]":  0.011999986559763844
+                   },
+                   {
+                       "dim_store[store_name]":  "Amiens",
+                       "[vs Budget]":  0.0077612906871608774,
+                       "[Return Rate]":  0.012000066293842015
+                   },
+                   {
+                       "dim_store[store_name]":  "Montreuil",
+                       "[vs Budget]":  0.014533511810481403,
+                       "[Return Rate]":  0.011999981651096567
+                   },
+                   {
+                       "dim_store[store_name]":  "Versailles",
+                       "[vs Budget]":  -0.0052604244111108828,
+                       "[Return Rate]":  0.01199998421467768
+                   },
+                   {
+                       "dim_store[store_name]":  "Metz",
+                       "[vs Budget]":  -0.18335776582874042,
+                       "[Return Rate]":  0.011999939474247712
+                   },
+                   {
+                       "dim_store[store_name]":  "Reims",
+                       "[vs Budget]":  -0.00022147610768026072,
+                       "[Return Rate]":  0.0120000129637441
+                   },
+                   {
+                       "dim_store[store_name]":  "Rouen",
+                       "[vs Budget]":  0.015545929908692352,
+                       "[Return Rate]":  0.012000011621068646
+                   },
+                   {
+                       "dim_store[store_name]":  "Caen",
+                       "[vs Budget]":  0.0093561955597266135,
+                       "[Return Rate]":  0.012000078830960397
+                   },
+                   {
+                       "dim_store[store_name]":  "Lyon",
+                       "[vs Budget]":  0.0050340214855837716,
+                       "[Return Rate]":  0.011999999326110905
+                   },
+                   {
+                       "dim_store[store_name]":  "Grenoble",
+                       "[vs Budget]":  -0.0012162762980619368,
+                       "[Return Rate]":  0.012000020831803243
+                   },
+                   {
+                       "dim_store[store_name]":  "Online shop",
+                       "[vs Budget]":  0.10841774177077299,
+                       "[Return Rate]":  0.05077406431189712
+                   }
+               ]
+}

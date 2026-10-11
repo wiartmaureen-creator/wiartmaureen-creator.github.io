@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Journal Entry Testing · Maureen Wiart</title>
+  <meta name="description" content="Case study: 11 audit tests written in SQL that scan a full general ledger, rank entries by risk and catch 30 out of 30 planted anomalies.">
+  <meta property="og:title" content="Journal entry testing in SQL · Maureen Wiart">
+  <meta property="og:description" content="11 SQL audit tests, a risk score and Benford's law on an 11,317-line general ledger.">
+  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <script>
+    try {
+      var savedTheme = localStorage.getItem("portfolio-theme");
+      if (savedTheme === "light" || savedTheme === "dark") {
+        document.documentElement.setAttribute("data-theme", savedTheme);
+      }
+    } catch (error) { /* storage unavailable: follow the OS setting */ }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../../" aria-label="Maureen Wiart, home">
+        <span class="brand-mark" aria-hidden="true">MW</span>
+        <span class="brand-text">
+          <span class="brand-name">Maureen Wiart</span>
+          <span class="brand-role">Data Analyst</span>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="../../#method">How I work</a>
+        <a href="../../#projects">Projects</a>
+        <a href="../../#skills">Skills</a>
+        <a href="../../#about">About</a>
+        <a href="../../#contact">Contact</a>
+      </nav>
+      <button class="icon-button" type="button" data-theme-toggle aria-label="Switch between light and dark mode">
+        <svg class="theme-icon-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+        <svg class="theme-icon-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="case-hero">
+      <div class="container">
+        <a class="back-link" href="../../#projects">← All projects</a>
+        <span class="eyebrow">Case study · SQL</span>
+        <h1>Journal entry testing: from 4,466 entries to five decisions</h1>
+        <p class="case-lead">
+          Every financial audit includes testing journal entries for signs of fraud and error.
+          I built a repeatable toolkit of 11 SQL tests that scans a full general ledger in under
+          a second, ranks every entry by risk, and turns the findings into decisions for management
+          and fixes to the processes behind them. It is validated against 30 anomalies planted on purpose.
+        </p>
+        <div class="case-meta">
+          <span><strong>Tools</strong> SQL (SQLite), Python standard library</span>
+          <span><strong>Data</strong> synthetic ERP ledger extract, fiscal year 2025</span>
+          <span><strong>Skills</strong> CTEs, window functions, joins, data validation</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="kpi-row" aria-label="Key figures">
+        <div class="card kpi">
+          <div class="kpi-label">Ledger lines analysed</div>
+          <div class="kpi-value" data-kpi="lines">11,317</div>
+          <div class="kpi-note" data-kpi="entries-note">4,466 journal entries</div>
+        </div>
+        <div class="card kpi">
+          <div class="kpi-label">Audit tests in SQL</div>
+          <div class="kpi-value" data-kpi="tests">11</div>
+          <div class="kpi-note">plus a risk score and Benford's law</div>
+        </div>
+        <div class="card kpi">
+          <div class="kpi-label">Planted anomalies detected</div>
+          <div class="kpi-value is-good" data-kpi="detected">30 / 30</div>
+          <div class="kpi-note">every known case found</div>
+        </div>
+        <div class="card kpi">
+          <div class="kpi-label">Review workload</div>
+          <div class="kpi-value" data-kpi="reduction">−99%</div>
+          <div class="kpi-note" data-kpi="flagged-note">33 entries to review instead of 4,466</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 01 Problem -->
+    <section class="case-section">
+      <div class="container prose">
+        <span class="section-number">01 · The business problem</span>
+        <h2>Thousands of entries, a handful that matter</h2>
+        <p>
+          Under the auditing standard on fraud (ISA 240), auditors must respond to the risk that
+          management overrides controls, and testing journal entries is a mandatory part of
+          that response. The question is simple: <em>which entries in the ledger look unusual
+          enough to need a closer look?</em>
+        </p>
+        <p>
+          In practice this work is often done in Excel, one filter at a time. It is slow, hard
+          to document, and nearly impossible to rerun the same way the following year. Thresholds
+          end up scattered across worksheets, and a long list of hits gives no idea of where
+          to start.
+        </p>
+        <div class="callout">
+          <p><strong>Goal:</strong> a toolkit that runs every test in one go, keeps all thresholds in one
+          place, turns the hits into a short prioritised review list, and can show that it actually
+          catches what it is meant to catch.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 Data -->
+    <section class="case-section">
+      <div class="container">
+        <div class="prose">
+          <span class="section-number">02 · The data</span>
+          <h2>A realistic ledger with known answers</h2>
+          <p>
+            Real general ledgers are confidential, so I generated one: <strong>Lumen Supplies SAS</strong>,
+            a fictitious French distributor, over fiscal year 2025. A seeded Python script simulates a full
+            year of activity: invoices from the invoicing system, supplier invoices and payments, payroll,
+            loan instalments, and month-end and year-end closing entries, using French chart of accounts
+            numbering with English labels.
+          </p>
+          <p>
+            Synthetic data has a second advantage: I could plant <strong>30 known anomalies</strong>
+            (fictitious revenue, duplicate invoices, split payments, entries keyed after closing, and more)
+            and measure whether the tests find them, much like testing a control with known positives.
+          </p>
+        </div>
+        <div class="schema" aria-label="Database tables">
+          <div class="card schema-table"><h4>journal_lines <span>11,317 rows</span></h4><p>One row per ledger line: entry number, dates, account, debit/credit, who keyed it and when.</p></div>
+          <div class="card schema-table"><h4>accounts <span>34 rows</span></h4><p>Chart of accounts with account type (asset, liability, revenue, expense).</p></div>
+          <div class="card schema-table"><h4>journals <span>5 rows</span></h4><p>Sales, purchases, bank, payroll and the manual general journal.</p></div>
+          <div class="card schema-table"><h4>users <span>7 rows</span></h4><p>Job titles, system accounts and posting rights.</p></div>
+          <div class="card schema-table"><h4>public_holidays <span>12 rows</span></h4><p>French public holidays for 2025 and early 2026.</p></div>
+          <div class="card schema-table is-auditor"><h4>auditor tables</h4><p><code>audit_parameters</code>, <code>test_catalog</code>, <code>review_keywords</code>, <code>test_hits</code>: thresholds, weights and results.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 Approach -->
+    <section class="case-section">
+      <div class="container">
+        <div class="prose">
+          <span class="section-number">03 · The approach</span>
+          <h2>Five steps, one command</h2>
+          <p>A single Python script runs the whole pipeline. Every test is a standalone, commented
+          <code>.sql</code> file, and no threshold is hard-coded: they all live in one parameter table.</p>
+        </div>
+        <ol class="steps">
+          <li class="card"><strong>Load</strong>CSV extracts into a typed SQLite schema with constraints.</li>
+          <li class="card"><strong>Test</strong>11 SQL tests, each exporting its own result file.</li>
+          <li class="card"><strong>Score</strong>Weighted tests combine into one risk score per entry.</li>
+          <li class="card"><strong>Benford</strong>First-digit analysis of 11,000+ amounts.</li>
+          <li class="card"><strong>Validate</strong>Hits compared with the 30 planted cases.</li>
+        </ol>
+        <div class="chart-card card" style="padding: 0; overflow: hidden;">
+          <div id="tests-table"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 Results -->
+    <section class="case-section">
+      <div class="container">
+        <div class="prose">
+          <span class="section-number">04 · Results</span>
+          <h2>Every planted case found, and a short list to review</h2>
+          <p>
+            The 11 tests flagged 33 of the 4,466 entries (0.7%). All 30 planted cases were caught by the
+            tests designed for them. The other hits are what an auditor expects to see in a real ledger:
+            legitimate entries that look unusual and are cleared with a quick explanation.
+          </p>
+        </div>
+
+        <div class="card chart-card" id="hits-card">
+          <div class="chart-head">
+            <div>
+              <h3>What each test found</h3>
+              <p>Entries flagged per test, split between planted cases and other hits</p>
+            </div>
+            <button class="chart-toggle" type="button">Show table</button>
+          </div>
+          <div class="legend">
+            <span class="legend-item"><span class="legend-swatch" style="background: var(--series-1)"></span>Planted cases</span>
+            <span class="legend-item"><span class="legend-swatch" style="background: var(--series-2)"></span>Other hits to review</span>
+          </div>
+          <div class="chart" id="hits-chart"></div>
+          <p class="chart-note">Test T02 counts missing entry numbers rather than entries. Hover or focus a row for details.</p>
+        </div>
+
+        <div class="prose" style="margin-top: 32px;">
+          <p>
+            The 7 other hits include an accrual for annual bonuses (a round 30,000 estimate), a stock-count
+            entry keyed at 21:34 during the closing rush, two supplier payments that happen to sit just under
+            the approval limit, and two entries correcting an expense account.
+          </p>
+        </div>
+
+        <div class="card chart-card" id="risk-card">
+          <div class="chart-head">
+            <div>
+              <h3>Top of the review list</h3>
+              <p>Entries ranked by risk score (sum of the weights of the tests they trigger)</p>
+            </div>
+          </div>
+          <div id="risk-table"></div>
+        </div>
+
+        <div class="prose" style="margin-top: 32px;">
+          <p>
+            The highest-scoring entry is a 60,000 sale keyed by the CFO a week after the books were closed,
+            late in the evening, with a round amount and the words "per CFO request". Five tests fire at
+            once: exactly the kind of entry ISA 240 asks auditors to look for.
+          </p>
+        </div>
+
+        <div class="card chart-card" id="benford-card">
+          <div class="chart-head">
+            <div>
+              <h3>Benford's law: first digit of every amount</h3>
+              <p data-text="benford-subtitle">Share of line amounts by first digit, against the share Benford's law predicts</p>
+            </div>
+            <button class="chart-toggle" type="button">Show table</button>
+          </div>
+          <div class="legend">
+            <span class="legend-item"><span class="legend-swatch" style="background: var(--series-1)"></span>Observed in the ledger</span>
+            <span class="legend-item"><span class="legend-line" style="background: var(--series-2)"></span>Expected (Benford)</span>
+          </div>
+          <div class="chart" id="benford-chart"></div>
+        </div>
+
+        <div class="prose" style="margin-top: 32px;">
+          <p>
+            Amounts follow Benford's law closely (mean absolute deviation 0.0026, "close conformity" on
+            Nigrini's scale). Digit 9 is slightly over-represented. On a real engagement I would follow up
+            with a first-two-digits test, which shows whether amounts cluster just under approval limits.
+          </p>
+        </div>
+        <details class="card" style="padding: 16px 20px; margin-top: 8px;">
+          <summary style="cursor: pointer; font-weight: 600;">See all 30 planted cases and the tests that caught them</summary>
+          <div id="planted-table" style="margin-top: 16px;"></div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 05 Decisions -->
+    <section class="case-section">
+      <div class="container">
+        <div class="prose">
+          <span class="section-number">05 · From findings to decisions</span>
+          <h2>What management should do now</h2>
+          <p>
+            A list of flagged entries is not the end product. Once the legitimate hits are cleared,
+            the review leaves five findings. Each one comes with the amount at stake, a decision for
+            management, and a change to the process so that the problem does not come back.
+          </p>
+        </div>
+        <div class="card chart-card" style="padding: 0; overflow: hidden;">
+          <div class="table-wrap decision-table" style="border: 0;">
+            <table>
+              <caption style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">Findings, amounts at stake, decisions and process improvements</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Finding</th>
+                  <th scope="col" class="num">At stake</th>
+                  <th scope="col">Decision for management</th>
+                  <th scope="col">Process improvement</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Revenue keyed by hand by the CFO</strong> in the last days of the year (3 entries, T09)</td>
+                  <td class="num amount">€85,450</td>
+                  <td class="decision">Do not sign off until contracts or delivery notes support each sale; reverse whatever is unsupported.</td>
+                  <td class="improvement">Block manual credits to revenue accounts: revenue only comes from the invoicing system.</td>
+                </tr>
+                <tr>
+                  <td><strong>Entries keyed after the books were closed</strong> (3 entries, T08)</td>
+                  <td class="num amount">+€70,165<br><span class="muted" style="font-weight: 400; font-size: 0.8rem;">profit</span></td>
+                  <td class="decision">Reverse them, or have them formally approved and documented before the accounts are approved.</td>
+                  <td class="improvement">Lock the 2025 period in the ERP on the closing date.</td>
+                </tr>
+                <tr>
+                  <td><strong>One invoice paid in four transfers</strong> just under the €10,000 approval limit (T07)</td>
+                  <td class="num amount">€39,576</td>
+                  <td class="decision">Ask the CFO to approve the payment retrospectively and explain why it was split.</td>
+                  <td class="improvement">Apply the approval limit to the total paid to a supplier over a week, not to each transfer.</td>
+                </tr>
+                <tr>
+                  <td><strong>Supplier invoices posted twice</strong> (5 invoices, T03)</td>
+                  <td class="num amount">€10,241</td>
+                  <td class="decision">Cancel the duplicates before they are paid and check that none has been paid already.</td>
+                  <td class="improvement">Make the ERP reject an invoice reference already posted for the same supplier.</td>
+                </tr>
+                <tr>
+                  <td><strong>Credit notes keyed by the sales manager</strong>, who has no posting rights (3 entries, T10)</td>
+                  <td class="num amount">€7,530</td>
+                  <td class="decision">Confirm the credit notes with the customers and recover any that are not justified.</td>
+                  <td class="improvement">Remove the sales manager's posting access; credit notes need finance approval.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="prose" style="margin-top: 28px;">
+          <div class="callout">
+            <p><strong>Bottom line for management:</strong> €85,450 of year-end revenue and €70,165 of profit
+            added after closing are not supported yet (the two overlap on one €50,000 entry). The accounts
+            should not be signed off until the CFO provides evidence or the entries are reversed.</p>
+          </div>
+          <p class="muted">
+            Smaller points (two unbalanced accruals, entries keyed at weekends or late at night, vague
+            descriptions) go to the chief accountant for an explanation.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 Code -->
+    <section class="case-section">
+      <div class="container">
+        <div class="prose">
+          <span class="section-number">06 · Inside the code</span>
+          <h2>Three queries worth a closer look</h2>
+          <p>Each test is a short, commented SQL file that explains why the test matters before showing how it works.</p>
+        </div>
+        <div class="code-tabs" data-tabs>
+          <div class="tab-list" role="tablist" aria-label="Code excerpts">
+            <button role="tab" id="tab-gaps" aria-controls="panel-gaps" aria-selected="true">Numbering gaps</button>
+            <button role="tab" id="tab-split" aria-controls="panel-split" aria-selected="false" tabindex="-1">Split payments</button>
+            <button role="tab" id="tab-score" aria-controls="panel-score" aria-selected="false" tabindex="-1">Risk score</button>
+            <button role="tab" id="tab-check" aria-controls="panel-check" aria-selected="false" tabindex="-1">Validation (Python)</button>
+          </div>
+
+          <div class="code-panel" role="tabpanel" id="panel-gaps" aria-labelledby="tab-gaps">
+            <p><code>LAG()</code> compares each entry number with the previous one in the same journal. Any jump larger than one is a gap the client must explain.</p>
+<pre class="code"><code class="language-sql">WITH numbers AS (
+    SELECT DISTINCT
+        journal_code,
+        SUBSTR(entry_number, 1, INSTR(entry_number, '-'))                      AS prefix,
+        CAST(SUBSTR(entry_number, INSTR(entry_number, '-') + 1) AS INTEGER)   AS entry_seq
+    FROM journal_lines
+),
+with_previous AS (
+    SELECT
+        journal_code,
+        prefix,
+        entry_seq,
+        LAG(entry_seq) OVER (PARTITION BY journal_code ORDER BY entry_seq) AS previous_seq
+    FROM numbers
+)
+SELECT
+    journal_code,
+    prefix || printf('%05d', previous_seq + 1)  AS first_missing_number,
+    prefix || printf('%05d', entry_seq - 1)     AS last_missing_number,
+    entry_seq - previous_seq - 1                AS missing_count
+FROM with_previous
+WHERE entry_seq - previous_seq &gt; 1
+ORDER BY journal_code, first_missing_number;</code></pre>
+          </div>
+
+          <div class="code-panel" role="tabpanel" id="panel-split" aria-labelledby="tab-split" hidden>
+            <p>Payments just under the 10,000 approval limit. The window functions count how many such payments each supplier received: one is a coincidence, four in four days is a pattern.</p>
+<pre class="code"><code class="language-sql">WITH params AS (
+    SELECT
+        CAST(MAX(CASE WHEN name = 'approval_threshold'   THEN value END) AS REAL) AS threshold,
+        CAST(MAX(CASE WHEN name = 'near_threshold_floor' THEN value END) AS REAL) AS floor_share
+    FROM audit_parameters
+)
+SELECT
+    jl.entry_number,
+    jl.entry_date,
+    jl.aux_account                                            AS supplier,
+    jl.debit                                                  AS payment_amount,
+    ROUND(100.0 * jl.debit / p.threshold, 1)                  AS pct_of_threshold,
+    COUNT(*) OVER (PARTITION BY jl.aux_account)               AS near_threshold_payments_to_supplier,
+    ROUND(SUM(jl.debit) OVER (PARTITION BY jl.aux_account), 2) AS total_paid_in_these_payments,
+    jl.created_by,
+    jl.description
+FROM journal_lines AS jl
+CROSS JOIN params AS p
+WHERE jl.journal_code = 'BNK'
+  AND jl.account_number LIKE '401%'
+  AND jl.debit &gt;= p.threshold * p.floor_share
+  AND jl.debit &lt;  p.threshold
+ORDER BY near_threshold_payments_to_supplier DESC, supplier, jl.entry_date;</code></pre>
+          </div>
+
+          <div class="code-panel" role="tabpanel" id="panel-score" aria-labelledby="tab-score" hidden>
+            <p>Each test has a weight in the catalogue. An entry's score is the sum of the weights of the tests it triggers, so entries that fail several tests rise to the top.</p>
+<pre class="code"><code class="language-sql">SELECT
+    h.entry_number,
+    e.journal_code,
+    e.entry_date,
+    e.created_at,
+    e.created_by,
+    e.total_debit                                         AS amount,
+    e.description,
+    SUM(c.weight)                                         AS risk_score,
+    COUNT(*)                                              AS tests_triggered,
+    GROUP_CONCAT(h.test_id, ', ' ORDER BY h.test_id)      AS tests
+FROM test_hits AS h
+JOIN test_catalog AS c
+  ON c.test_id = h.test_id
+JOIN v_entries AS e
+  ON e.entry_number = h.entry_number
+GROUP BY h.entry_number, e.journal_code, e.entry_date, e.created_at,
+         e.created_by, e.total_debit, e.description
+ORDER BY risk_score DESC, tests_triggered DESC, amount DESC;</code></pre>
+          </div>
+
+          <div class="code-panel" role="tabpanel" id="panel-check" aria-labelledby="tab-check" hidden>
+            <p>The validation step: for every planted case, did each test designed to catch it actually flag it? This is what turns "the queries run" into "the queries work".</p>
+<pre class="code"><code class="language-python">def check_detection(test_results):
+    """Compare what each test flagged with the planted answer key."""
+    planted = read_csv(VALIDATION_FILE)
+    details = []
+    for case in planted:
+        expected = case["expected_tests"].split(";")
+        triggered = sorted(test_id for test_id, result in test_results.items()
+                           if case["entry_number"] in result["flagged"])
+        details.append({
+            "case_id": case["case_id"],
+            "entry_number": case["entry_number"],
+            "scenario": case["scenario"],
+            "story": case["story"],
+            "expected_tests": expected,
+            "triggered_tests": triggered,
+            "detected": all(test_id in triggered for test_id in expected),
+        })</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 Next -->
+    <section class="case-section">
+      <div class="container prose">
+        <span class="section-number">07 · What I would do next</span>
+        <h2>From demo to engagement tool</h2>
+        <ul class="next-list">
+          <li>Run the same queries on a real <strong>FEC</strong> file (the French legal ledger format) after mapping its 18 standard columns.</li>
+          <li>Add a first-two-digits Benford test and a test on entries posted to rarely used accounts.</li>
+          <li>Calibrate the weights with the engagement team and track how many false positives are cleared each year.</li>
+          <li>Feed the review list into Power BI so the team can filter it and document their conclusions.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 08 Files -->
+    <section class="case-section">
+      <div class="container prose">
+        <span class="section-number">08 · Code and data</span>
+        <h2>Run it yourself</h2>
+        <p>No installation needed: the project only uses the Python standard library (<code>sqlite3</code>, <code>csv</code>, <code>random</code>).</p>
+<pre class="code"><code class="language-bash">python src/generate_ledger.py   # writes data/ and validation/
+python src/run_analysis.py      # builds output/ledger.db and results/</code></pre>
+        <ul class="file-list">
+          <li><a class="card" href="README.md"><span class="mono">README.md</span><span>Project overview</span></a></li>
+          <li><a class="card" href="sql/tests/T01_unbalanced_entries.sql"><span class="mono">sql/tests/</span><span>The 11 SQL tests (T01 to T11)</span></a></li>
+          <li><a class="card" href="src/run_analysis.py"><span class="mono">src/run_analysis.py</span><span>Pipeline: load, test, score, validate</span></a></li>
+          <li><a class="card" href="src/generate_ledger.py"><span class="mono">src/generate_ledger.py</span><span>Synthetic ledger and planted anomalies</span></a></li>
+          <li><a class="card" href="results/risk_ranking.csv"><span class="mono">results/risk_ranking.csv</span><span>Full prioritised review list</span></a></li>
+          <li><a class="card" href="data/general_ledger.csv"><span class="mono">data/general_ledger.csv</span><span>The ledger itself (1.4 MB)</span></a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-current-year>2026</span> Maureen Wiart</span>
+      <span>Lumen Supplies SAS is fictitious. All data in this project is synthetic.</span>
+    </div>
+  </footer>
+
+  <script src="results/summary.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script src="../../assets/js/charts.js"></script>
+  <script src="../../assets/js/case-study.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="page.js"></script>
+</body>
+</html>

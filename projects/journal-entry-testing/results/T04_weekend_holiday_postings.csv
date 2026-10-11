@@ -1,0 +1,5 @@
+entry_number,journal_code,entry_date,created_at,created_by,job_title,non_working_day,amount,description
+MISC25-00013,MISC,2025-05-01,2025-05-01 11:40:27,cmoreau,Chief accountant,Public holiday - Labour Day,3420.0,Misc regularisation
+MISC25-00027,MISC,2025-08-16,2025-08-16 15:02:44,cmoreau,Chief accountant,Saturday,8750.0,Transfer to suspense account
+MISC25-00039,MISC,2025-11-11,2025-11-11 18:12:09,ftessier,Chief financial officer,Public holiday - Armistice Day,2180.35,Expense reimbursement - F. Tessier
+MISC25-00047,MISC,2025-12-27,2025-12-27 10:12:40,ftessier,Chief financial officer,Saturday,24000.0,Revenue accrual - Q4 deliveries

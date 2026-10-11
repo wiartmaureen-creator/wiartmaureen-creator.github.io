@@ -1,0 +1,5 @@
+entry_number,journal_code,entry_date,days_before_year_end,created_at,created_by,job_title,revenue_credited,description
+MISC25-00061,MISC,2025-12-31,0,2026-01-28 21:47:12,ftessier,Chief financial officer,50000.0,Year-end sales adjustment per CFO request
+MISC25-00047,MISC,2025-12-27,4,2025-12-27 10:12:40,ftessier,Chief financial officer,20000.0,Revenue accrual - Q4 deliveries
+MISC25-00048,MISC,2025-12-30,1,2025-12-30 14:05:09,ftessier,Chief financial officer,15450.0,Sales - project milestone
+MISC25-00057,MISC,2025-12-31,0,2026-01-14 12:47:18,cmoreau,Chief accountant,7201.82,Goods shipped not yet invoiced - sales cut-off

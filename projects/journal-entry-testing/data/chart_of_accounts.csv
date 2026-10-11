@@ -1,0 +1,35 @@
+account_number,account_label,account_type
+164000,Bank loans,Liability
+281540,Accumulated depreciation - equipment,Asset
+370000,Inventory of goods,Asset
+401000,Trade payables,Liability
+408100,Accrued supplier invoices,Liability
+411000,Trade receivables,Asset
+418100,Unbilled receivables,Asset
+421000,Salaries payable,Liability
+428600,Accrued payroll costs,Liability
+431000,Social security payable,Liability
+445660,Deductible VAT,Asset
+445710,Collected VAT,Liability
+445870,VAT on unbilled receivables,Liability
+467000,Other receivables,Asset
+471000,Suspense account,Asset
+491000,Allowance for doubtful receivables,Asset
+512000,Bank,Asset
+603700,Change in inventory of goods,Expense
+606300,Small equipment and supplies,Expense
+607000,Purchases of goods,Expense
+613200,Rent,Expense
+615000,Maintenance and repairs,Expense
+622600,Professional fees,Expense
+625100,Travel expenses,Expense
+626000,Postage and telecom,Expense
+641000,Salaries,Expense
+645000,Employer social charges,Expense
+658000,Other operating expenses,Expense
+661100,Loan interest,Expense
+681100,Depreciation expense,Expense
+681740,Allowance expense - doubtful receivables,Expense
+707000,Sales of goods,Revenue
+709000,Sales discounts and rebates,Revenue
+781740,Release of allowance - doubtful receivables,Revenue

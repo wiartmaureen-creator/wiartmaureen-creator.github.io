@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.2.0/schema.json",
+  "name": "mgCard2",
+  "position": {
+    "x": 644,
+    "y": 86,
+    "z": 5,
+    "width": 302,
+    "height": 104,
+    "tabOrder": 5
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_sales"
+                    }
+                  },
+                  "Property": "Gross Margin % Change (pts)"
+                }
+              },
+              "queryRef": "fact_sales.Gross Margin % Change (pts)",
+              "nativeQueryRef": "Gross Margin % Change (pts)"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

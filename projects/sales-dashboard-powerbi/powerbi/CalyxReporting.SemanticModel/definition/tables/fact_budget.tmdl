@@ -1,0 +1,62 @@
+table fact_budget
+	lineageTag: afb03ab5-c462-5818-aea1-afb507dcb603
+
+	column month_start
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 0bb6e4f0-c3d2-5cdc-bdf0-97c74148db59
+		summarizeBy: none
+		sourceColumn: month_start
+		isHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column store_id
+		dataType: string
+		lineageTag: dc5f0828-96c5-5d3d-9aab-2fb586106b03
+		summarizeBy: none
+		sourceColumn: store_id
+		isHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column category_id
+		dataType: string
+		lineageTag: 85cc936b-6e39-51f0-a5c1-c22f96a2c019
+		summarizeBy: none
+		sourceColumn: category_id
+		isHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column budget_net_sales
+		dataType: double
+		formatString: #,0
+		lineageTag: 3729496a-f8a7-52df-9184-c7b7f72519b5
+		summarizeBy: sum
+		sourceColumn: budget_net_sales
+
+		annotation SummarizationSetBy = Automatic
+
+	column budget_gross_margin
+		dataType: double
+		formatString: #,0
+		lineageTag: 07f048a2-3eab-50a7-b752-74bebecd02be
+		summarizeBy: sum
+		sourceColumn: budget_gross_margin
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_budget = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "fact_budget.csv"), [Delimiter = ",", Columns = 5, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"month_start", type date}, {"store_id", type text}, {"category_id", type text}, {"budget_net_sales", type number}, {"budget_gross_margin", type number}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

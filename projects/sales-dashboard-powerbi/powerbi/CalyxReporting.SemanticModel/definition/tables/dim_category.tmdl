@@ -1,0 +1,31 @@
+table dim_category
+	lineageTag: 26ab09d8-23b1-51d4-b7c0-abd75ee49ce8
+
+	column category_id
+		dataType: string
+		lineageTag: dc9cac71-d362-5b92-914f-09f76931fbfe
+		summarizeBy: none
+		sourceColumn: category_id
+		isHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		lineageTag: 08216722-aca6-545c-9e46-097230094e89
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_category = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "dim_category.csv"), [Delimiter = ",", Columns = 2, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"category_id", type text}, {"category", type text}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

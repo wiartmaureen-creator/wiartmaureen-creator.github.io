@@ -1,0 +1,5 @@
+entry_number,journal_code,entry_date,created_at,keyed_at,created_by,job_title,amount,description
+MISC25-00033,MISC,2025-09-30,2025-10-01 05:42:10,05:42:10,cmoreau,Chief accountant,14912.66,Inventory adjustment
+MISC25-00059,MISC,2025-12-31,2026-01-15 21:34:18,21:34:18,cmoreau,Chief accountant,18432.75,Change in inventory - year-end stock count
+MISC25-00061,MISC,2025-12-31,2026-01-28 21:47:12,21:47:12,ftessier,Chief financial officer,60000.0,Year-end sales adjustment per CFO request
+PUR25-00148,PUR,2025-03-14,2025-03-14 23:18:37,23:18:37,jmartin,Accounts payable accountant,7776.0,Supplier invoice S029-77120

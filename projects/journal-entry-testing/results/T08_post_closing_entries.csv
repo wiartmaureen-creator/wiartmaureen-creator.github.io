@@ -1,0 +1,4 @@
+entry_number,journal_code,entry_date,created_at,days_after_closing,created_by,job_title,amount,description
+MISC25-00060,MISC,2025-12-31,2026-01-27 16:20:03,6,ftessier,Chief financial officer,7365.4,Cancel accrual - do not reverse
+MISC25-00061,MISC,2025-12-31,2026-01-28 21:47:12,8,ftessier,Chief financial officer,60000.0,Year-end sales adjustment per CFO request
+MISC25-00062,MISC,2025-12-31,2026-02-02 09:31:55,12,ftessier,Chief financial officer,12800.0,Release of allowance - doubtful receivables

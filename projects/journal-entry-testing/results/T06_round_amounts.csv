@@ -1,0 +1,6 @@
+entry_number,journal_code,entry_date,created_by,largest_round_amount,accounts,description
+MISC25-00061,MISC,2025-12-31,ftessier,60000.0,"411000,707000,445710",Year-end sales adjustment per CFO request
+MISC25-00036,MISC,2025-10-15,ftessier,40000.0,"467000,512000",Advance - director current account
+MISC25-00058,MISC,2025-12-31,cmoreau,30000.0,"641000,428600",Accrued annual bonuses 2025
+MISC25-00020,MISC,2025-06-30,cmoreau,25000.0,"471000,512000",Transfer
+MISC25-00047,MISC,2025-12-27,ftessier,24000.0,"418100,707000",Revenue accrual - Q4 deliveries

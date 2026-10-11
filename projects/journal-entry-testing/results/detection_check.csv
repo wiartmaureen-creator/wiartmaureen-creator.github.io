@@ -1,0 +1,31 @@
+case_id,entry_number,scenario,expected_tests,triggered_tests,detected
+A01,MISC25-00061,Fictitious year-end revenue,T05;T06;T08;T09;T11,T05;T06;T08;T09;T11,Yes
+A02,MISC25-00047,Revenue accrual keyed on a Saturday,T04;T06;T09,T04;T06;T09,Yes
+A03,MISC25-00048,Manual sale outside the invoicing system,T09,T09,Yes
+A04,MISC25-00062,Allowance released after closing,T08,T08,Yes
+A05,MISC25-00060,Accrual cancelled after closing,T08;T11,T08;T11,Yes
+A06,MISC25-00013,Payment keyed on a public holiday,T04;T11,T04;T11,Yes
+A07,MISC25-00027,Transfer to suspense on a Saturday,T04,T04,Yes
+A08,MISC25-00039,CFO self-reimbursement on a holiday,T04,T04,Yes
+A09,PUR25-00148,Supplier invoice keyed near midnight,T05,T05,Yes
+A10,MISC25-00033,Inventory write-down keyed at dawn,T05;T11,T05;T11,Yes
+A11,MISC25-00020,Round transfer to suspense,T06,T06,Yes
+A12,MISC25-00036,Round advance to a director,T06,T06,Yes
+A13,MISC25-00014,Unbalanced entry (transposition),T01,T01,Yes
+A14,MISC25-00024,Unbalanced entry,T01,T01,Yes
+A15,MISC25-00043,Credit note keyed by a user without posting rights,T10,T10,Yes
+A16,MISC25-00044,Credit note keyed by a user without posting rights,T10,T10,Yes
+A17,MISC25-00045,Credit note keyed by a user without posting rights,T10,T10,Yes
+D01,PUR25-00189,Duplicate supplier invoice,T03,T03,Yes
+D02,PUR25-00306,Duplicate supplier invoice,T03,T03,Yes
+D03,PUR25-00351,Duplicate supplier invoice,T03,T03,Yes
+D04,PUR25-00368,Duplicate supplier invoice,T03,T03,Yes
+D05,PUR25-00155,Duplicate supplier invoice,T03,T03,Yes
+P01,BNK25-01752,Payment split below the approval threshold,T07,T07,Yes
+P02,BNK25-01760,Payment split below the approval threshold,T07,T07,Yes
+P03,BNK25-01774,Payment split below the approval threshold,T07,T07,Yes
+P04,BNK25-01783,Payment split below the approval threshold,T07,T07,Yes
+G01,SAL25-00458,Gap in sales entry numbering,T02,T02,Yes
+G02,SAL25-00470,Gap in sales entry numbering,T02,T02,Yes
+G03,SAL25-00488,Gap in sales entry numbering,T02,T02,Yes
+G04,SAL25-01167,Gap in sales entry numbering,T02,T02,Yes

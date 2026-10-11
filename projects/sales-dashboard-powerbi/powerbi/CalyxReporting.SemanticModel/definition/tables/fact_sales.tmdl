@@ -1,0 +1,207 @@
+table fact_sales
+	lineageTag: a9152b13-6992-52b2-8384-88bb86fb6775
+
+	measure 'Net Sales' = SUM(fact_sales[net_sales])
+		formatString: #,0
+		displayFolder: Sales
+		lineageTag: f2b0422c-f78a-5ad4-82c5-9d706f28dd95
+
+	measure 'Gross Sales' = SUM(fact_sales[gross_sales])
+		formatString: #,0
+		displayFolder: Sales
+		lineageTag: 3c8490f4-e010-5261-be45-8ef28d910978
+
+	measure 'Total Discount' = SUM(fact_sales[discount])
+		formatString: #,0
+		displayFolder: Sales
+		lineageTag: d316a9a5-8556-5305-ae89-1a3ca8abe7a9
+
+	measure 'Total Returns' = SUM(fact_sales[returns])
+		formatString: #,0
+		displayFolder: Sales
+		lineageTag: b2b841bb-8a61-56a4-a11a-003ce99a18e3
+
+	measure 'Units Sold' = SUM(fact_sales[units])
+		formatString: #,0
+		displayFolder: Sales
+		lineageTag: 1c8ff3fc-4f65-5403-b44e-fb25faa182b8
+
+	measure 'Net Sales LY' = CALCULATE([Net Sales], SAMEPERIODLASTYEAR(dim_date[date]))
+		formatString: #,0
+		displayFolder: Sales
+		lineageTag: e43cace6-f8af-595a-8b8d-9e44acab06cf
+
+	measure 'Net Sales YoY %' =
+			VAR LastYear = [Net Sales LY]
+			RETURN DIVIDE([Net Sales] - LastYear, LastYear)
+		formatString: 0.0%
+		displayFolder: Sales
+		lineageTag: 12472b48-a3d3-54fd-b7cc-a929c6ecab2c
+
+	measure 'Units YoY %' =
+			VAR LastYear = CALCULATE([Units Sold], SAMEPERIODLASTYEAR(dim_date[date]))
+			RETURN DIVIDE([Units Sold] - LastYear, LastYear)
+		formatString: 0.0%
+		displayFolder: Sales
+		lineageTag: 91a8f7c5-d5da-5ecf-a971-f784fb4dc03f
+
+	measure 'Cost of Sales' = SUM(fact_sales[cost_of_sales])
+		formatString: #,0
+		displayFolder: Margin
+		lineageTag: 29d22235-f8a6-5aec-a568-a3a28a510009
+
+	measure 'Gross Margin' = [Net Sales] - [Cost of Sales]
+		formatString: #,0
+		displayFolder: Margin
+		lineageTag: 3fd3b751-13b0-5939-ad19-0a8bbf967031
+
+	measure 'Gross Margin %' = DIVIDE([Gross Margin], [Net Sales])
+		formatString: 0.0%
+		displayFolder: Margin
+		lineageTag: 6ad75a7f-a209-53a4-b232-f4e8f1791ac2
+
+	measure 'Gross Margin LY' = CALCULATE([Gross Margin], SAMEPERIODLASTYEAR(dim_date[date]))
+		formatString: #,0
+		displayFolder: Margin
+		lineageTag: 085af621-85ae-5887-a186-a8274d1b7f1d
+
+	measure 'Gross Margin % LY' = CALCULATE([Gross Margin %], SAMEPERIODLASTYEAR(dim_date[date]))
+		formatString: 0.0%
+		displayFolder: Margin
+		lineageTag: 00e87864-c770-5ec1-85cb-4ad037d99743
+
+	measure 'Gross Margin % Change (pts)' = ([Gross Margin %] - [Gross Margin % LY]) * 100
+		formatString: +0.0;-0.0;0.0
+		displayFolder: Margin
+		lineageTag: 796055da-25e8-5b01-8aae-9ded0da1b58c
+
+	measure 'Discount Rate' = DIVIDE([Total Discount], [Gross Sales])
+		formatString: 0.0%
+		displayFolder: Margin
+		lineageTag: 3c771489-e7e5-5aaf-9d0f-528ed4db1e6c
+
+	measure 'Return Rate' = DIVIDE([Total Returns], [Gross Sales] - [Total Discount])
+		formatString: 0.0%
+		displayFolder: Margin
+		lineageTag: d1f09db6-841b-5dd7-835a-29acde7b76f8
+
+	measure Budget = SUM(fact_budget[budget_net_sales])
+		formatString: #,0
+		displayFolder: Budget
+		lineageTag: cd58fb5f-b816-57ea-ac97-33e7b6d64a9b
+
+	measure 'Budget Gross Margin' = SUM(fact_budget[budget_gross_margin])
+		formatString: #,0
+		displayFolder: Budget
+		lineageTag: e449fe74-79e5-5a76-8460-a5cdde37e569
+
+	measure 'Net Sales vs Budget' = [Net Sales] - [Budget]
+		formatString: +#,0;-#,0;0
+		displayFolder: Budget
+		lineageTag: fed4920d-0923-5dbc-b3a8-db7218140b63
+
+	measure 'Net Sales vs Budget %' = DIVIDE([Net Sales vs Budget], [Budget])
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Budget
+		lineageTag: abf215d0-f60d-5842-94e2-79cc9bce13cc
+
+	measure 'Gross Margin vs Budget' = [Gross Margin] - [Budget Gross Margin]
+		formatString: +#,0;-#,0;0
+		displayFolder: Budget
+		lineageTag: 67a5f767-630a-5b70-8e5a-bbd777e25988
+
+	column date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 538aaa0b-e8a2-5125-8b23-036361ff4dae
+		summarizeBy: none
+		sourceColumn: date
+		isHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column store_id
+		dataType: string
+		lineageTag: 74f2cd52-b3a7-5284-9c2b-084adee7056f
+		summarizeBy: none
+		sourceColumn: store_id
+		isHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column category_id
+		dataType: string
+		lineageTag: 5bbbaf17-4635-5ce4-922b-052f378ee9f7
+		summarizeBy: none
+		sourceColumn: category_id
+		isHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column units
+		dataType: int64
+		formatString: #,0
+		lineageTag: 2ee871e7-e4f1-5e2b-a967-9a0a0a3c1841
+		summarizeBy: sum
+		sourceColumn: units
+
+		annotation SummarizationSetBy = Automatic
+
+	column gross_sales
+		dataType: double
+		formatString: #,0
+		lineageTag: 7b33e9d0-edfd-5581-b516-58d49e056755
+		summarizeBy: sum
+		sourceColumn: gross_sales
+
+		annotation SummarizationSetBy = Automatic
+
+	column discount
+		dataType: double
+		formatString: #,0
+		lineageTag: 8cbc1290-faba-54a4-89de-2e5b3e1ee491
+		summarizeBy: sum
+		sourceColumn: discount
+
+		annotation SummarizationSetBy = Automatic
+
+	column returns
+		dataType: double
+		formatString: #,0
+		lineageTag: 43ed9444-5249-504f-95e0-b7ce2fc5b86b
+		summarizeBy: sum
+		sourceColumn: returns
+
+		annotation SummarizationSetBy = Automatic
+
+	column net_sales
+		dataType: double
+		formatString: #,0
+		lineageTag: fb65d703-7a4c-5d18-8598-58f063ab25c0
+		summarizeBy: sum
+		sourceColumn: net_sales
+
+		annotation SummarizationSetBy = Automatic
+
+	column cost_of_sales
+		dataType: double
+		formatString: #,0
+		lineageTag: 7415fa89-98a0-5a19-8169-cccef92a32c5
+		summarizeBy: sum
+		sourceColumn: cost_of_sales
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_sales = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "fact_sales.csv"), [Delimiter = ",", Columns = 9, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"date", type date}, {"store_id", type text}, {"category_id", type text}, {"units", Int64.Type}, {"gross_sales", type number}, {"discount", type number}, {"returns", type number}, {"net_sales", type number}, {"cost_of_sales", type number}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,34 @@
+entry_number,journal_code,entry_date,created_at,created_by,amount,description,risk_score,tests_triggered,tests
+MISC25-00061,MISC,2025-12-31,2026-01-28 21:47:12,ftessier,60000.0,Year-end sales adjustment per CFO request,12,5,"T05, T06, T08, T09, T11"
+MISC25-00047,MISC,2025-12-27,2025-12-27 10:12:40,ftessier,24000.0,Revenue accrual - Q4 deliveries,7,3,"T04, T06, T09"
+MISC25-00060,MISC,2025-12-31,2026-01-27 16:20:03,ftessier,7365.4,Cancel accrual - do not reverse,5,2,"T08, T11"
+MISC25-00024,MISC,2025-07-31,2025-08-04 09:48:12,cmoreau,4260.0,Accrued maintenance - July 2025,5,1,T01
+MISC25-00045,MISC,2025-12-23,2025-12-23 12:47:55,hbernard,3150.0,Commercial gesture - customer C022,5,1,T10
+MISC25-00043,MISC,2025-12-19,2025-12-19 17:25:41,hbernard,2400.0,Commercial gesture - customer C022,5,1,T10
+MISC25-00044,MISC,2025-12-22,2025-12-22 16:02:19,hbernard,1980.0,Commercial gesture - customer C005,5,1,T10
+MISC25-00014,MISC,2025-04-30,2025-05-05 10:20:30,cmoreau,1875.2,Accrued fees - April 2025,5,1,T01
+MISC25-00048,MISC,2025-12-30,2025-12-30 14:05:09,ftessier,18540.0,Sales - project milestone,4,1,T09
+MISC25-00062,MISC,2025-12-31,2026-02-02 09:31:55,ftessier,12800.0,Release of allowance - doubtful receivables,4,1,T08
+MISC25-00057,MISC,2025-12-31,2026-01-14 12:47:18,cmoreau,8642.18,Goods shipped not yet invoiced - sales cut-off,4,1,T09
+MISC25-00033,MISC,2025-09-30,2025-10-01 05:42:10,cmoreau,14912.66,Inventory adjustment,3,2,"T05, T11"
+MISC25-00013,MISC,2025-05-01,2025-05-01 11:40:27,cmoreau,3420.0,Misc regularisation,3,2,"T04, T11"
+PUR25-00368,PUR,2025-06-20,2025-07-02 08:48:02,jmartin,5634.44,Supplier invoice S009-98495,3,1,T03
+PUR25-00351,PUR,2025-06-13,2025-06-24 10:50:54,jmartin,2242.69,Supplier invoice S008-69409,3,1,T03
+PUR25-00189,PUR,2025-03-24,2025-04-02 12:01:21,jmartin,1172.78,Supplier invoice S030-30124,3,1,T03
+PUR25-00306,PUR,2025-05-19,2025-06-02 15:32:30,jmartin,872.75,Supplier invoice S033-48514,3,1,T03
+PUR25-00155,PUR,2025-03-07,2025-03-18 11:22:13,jmartin,318.52,Supplier invoice S037-32929,3,1,T03
+MISC25-00059,MISC,2025-12-31,2026-01-15 21:34:18,cmoreau,18432.75,Change in inventory - year-end stock count,2,1,T05
+BNK25-01752,BNK,2025-11-24,2025-11-24 14:06:28,jmartin,9894.0,Supplier payment S038 - S038-40211,2,1,T07
+BNK25-01760,BNK,2025-11-25,2025-11-25 12:09:50,jmartin,9894.0,Supplier payment S038 - S038-40211,2,1,T07
+BNK25-01774,BNK,2025-11-26,2025-11-26 13:05:26,jmartin,9894.0,Supplier payment S038 - S038-40211,2,1,T07
+BNK25-01783,BNK,2025-11-27,2025-11-27 14:01:05,jmartin,9894.0,Supplier payment S038 - S038-40211,2,1,T07
+BNK25-01438,BNK,2025-10-08,2025-10-08 15:40:24,jmartin,9779.17,Supplier payment S002 - S002-26720,2,1,T07
+BNK25-01935,BNK,2025-12-19,2025-12-19 09:44:16,jmartin,9573.08,Supplier payment S008 - S008-37617,2,1,T07
+MISC25-00027,MISC,2025-08-16,2025-08-16 15:02:44,cmoreau,8750.0,Transfer to suspense account,2,1,T04
+PUR25-00148,PUR,2025-03-14,2025-03-14 23:18:37,jmartin,7776.0,Supplier invoice S029-77120,2,1,T05
+MISC25-00039,MISC,2025-11-11,2025-11-11 18:12:09,ftessier,2180.35,Expense reimbursement - F. Tessier,2,1,T04
+MISC25-00036,MISC,2025-10-15,2025-10-15 11:03:51,ftessier,40000.0,Advance - director current account,1,1,T06
+MISC25-00058,MISC,2025-12-31,2026-01-15 16:11:24,cmoreau,30000.0,Accrued annual bonuses 2025,1,1,T06
+MISC25-00020,MISC,2025-06-30,2025-06-30 16:44:02,cmoreau,25000.0,Transfer,1,1,T06
+MISC25-00032,MISC,2025-09-26,2025-09-26 15:10:51,cmoreau,499.22,Correction of posting error - wrong expense account,1,1,T11
+MISC25-00011,MISC,2025-04-17,2025-04-17 11:02:28,cmoreau,139.57,Correction of posting error - wrong expense account,1,1,T11

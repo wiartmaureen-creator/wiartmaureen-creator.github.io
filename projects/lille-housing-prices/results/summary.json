@@ -1,0 +1,516 @@
+{
+  "source": "DVF geolocalised, Etalab / DGFiP, 2021-2025",
+  "preparation": {
+    "all_rows": 553756,
+    "mel_sale_rows": 211037,
+    "single_dwelling_sales": 76689,
+    "after_quality_filters": 76047
+  },
+  "sales": 76047,
+  "communes_in_data": 95,
+  "yearly": [
+    {
+      "year": 2021,
+      "type": "Flat",
+      "sales": 7390,
+      "median_price_m2": 3130.57883708748,
+      "median_price": 155000,
+      "median_surface": 55
+    },
+    {
+      "year": 2021,
+      "type": "House",
+      "sales": 11204,
+      "median_price_m2": 2449.00208793908,
+      "median_price": 212000,
+      "median_surface": 88
+    },
+    {
+      "year": 2022,
+      "type": "Flat",
+      "sales": 6945,
+      "median_price_m2": 3169.01408450704,
+      "median_price": 163000,
+      "median_surface": 57
+    },
+    {
+      "year": 2022,
+      "type": "House",
+      "sales": 10663,
+      "median_price_m2": 2621.05263157895,
+      "median_price": 226350,
+      "median_surface": 88
+    },
+    {
+      "year": 2023,
+      "type": "Flat",
+      "sales": 5304,
+      "median_price_m2": 3171.72181372549,
+      "median_price": 157029.5,
+      "median_surface": 55
+    },
+    {
+      "year": 2023,
+      "type": "House",
+      "sales": 7991,
+      "median_price_m2": 2546.2962962963,
+      "median_price": 220000,
+      "median_surface": 87
+    },
+    {
+      "year": 2024,
+      "type": "Flat",
+      "sales": 4593,
+      "median_price_m2": 3011.62790697674,
+      "median_price": 151000,
+      "median_surface": 55
+    },
+    {
+      "year": 2024,
+      "type": "House",
+      "sales": 7483,
+      "median_price_m2": 2481.48148148148,
+      "median_price": 213000,
+      "median_surface": 87
+    },
+    {
+      "year": 2025,
+      "type": "Flat",
+      "sales": 5533,
+      "median_price_m2": 3084.44444444444,
+      "median_price": 156000,
+      "median_surface": 56
+    },
+    {
+      "year": 2025,
+      "type": "House",
+      "sales": 8941,
+      "median_price_m2": 2509.43396226415,
+      "median_price": 218500,
+      "median_surface": 88
+    }
+  ],
+  "lille_yearly": [
+    {
+      "year": 2021,
+      "type": "Flat",
+      "sales": 3298,
+      "median_price_m2": 3711.61616161616
+    },
+    {
+      "year": 2021,
+      "type": "House",
+      "sales": 1121,
+      "median_price_m2": 2755.55555555556
+    },
+    {
+      "year": 2022,
+      "type": "Flat",
+      "sales": 3109,
+      "median_price_m2": 3846.15384615385
+    },
+    {
+      "year": 2022,
+      "type": "House",
+      "sales": 1055,
+      "median_price_m2": 2926.82926829268
+    },
+    {
+      "year": 2023,
+      "type": "Flat",
+      "sales": 2540,
+      "median_price_m2": 3851.12812248187
+    },
+    {
+      "year": 2023,
+      "type": "House",
+      "sales": 875,
+      "median_price_m2": 2857.14285714286
+    },
+    {
+      "year": 2024,
+      "type": "Flat",
+      "sales": 2109,
+      "median_price_m2": 3666.66666666667
+    },
+    {
+      "year": 2024,
+      "type": "House",
+      "sales": 793,
+      "median_price_m2": 2822.91666666667
+    },
+    {
+      "year": 2025,
+      "type": "Flat",
+      "sales": 2511,
+      "median_price_m2": 3705
+    },
+    {
+      "year": 2025,
+      "type": "House",
+      "sales": 909,
+      "median_price_m2": 2785.71428571429
+    }
+  ],
+  "peak": [
+    {
+      "year": 2023,
+      "type": "Flat",
+      "sales": 5304,
+      "median_price_m2": 3171.72181372549,
+      "median_price": 157029.5,
+      "median_surface": 55
+    },
+    {
+      "year": 2022,
+      "type": "House",
+      "sales": 10663,
+      "median_price_m2": 2621.05263157895,
+      "median_price": 226350,
+      "median_surface": 88
+    }
+  ],
+  "latest": [
+    {
+      "year": 2025,
+      "type": "Flat",
+      "sales": 5533,
+      "median_price_m2": 3084.44444444444,
+      "median_price": 156000,
+      "median_surface": 56
+    },
+    {
+      "year": 2025,
+      "type": "House",
+      "sales": 8941,
+      "median_price_m2": 2509.43396226415,
+      "median_price": 218500,
+      "median_surface": 88
+    }
+  ],
+  "index": [
+    {
+      "year": 2021,
+      "hedonic": 100,
+      "raw": 100
+    },
+    {
+      "year": 2022,
+      "hedonic": 104.607365915773,
+      "raw": 104.820503818278
+    },
+    {
+      "year": 2023,
+      "hedonic": 101.886498653025,
+      "raw": 103.503292378333
+    },
+    {
+      "year": 2024,
+      "hedonic": 98.1309652374947,
+      "raw": 98.9962151203018
+    },
+    {
+      "year": 2025,
+      "hedonic": 100.350275817359,
+      "raw": 101.169180775306
+    }
+  ],
+  "communes": [
+    {
+      "commune": "Bondues",
+      "sales": 152,
+      "median_price_m2": 3946.66922683052,
+      "flats_share": 0.144736842105263
+    },
+    {
+      "commune": "Marcq-en-Barœul",
+      "sales": 1077,
+      "median_price_m2": 3689.0243902439,
+      "flats_share": 0.424326833797586
+    },
+    {
+      "commune": "Wambrechies",
+      "sales": 275,
+      "median_price_m2": 3506.12244897959,
+      "flats_share": 0.349090909090909
+    },
+    {
+      "commune": "Lille",
+      "sales": 6322,
+      "median_price_m2": 3453.36183310533,
+      "flats_share": 0.73078139829168
+    },
+    {
+      "commune": "Saint-André-lez-Lille",
+      "sales": 357,
+      "median_price_m2": 3400,
+      "flats_share": 0.411764705882353
+    },
+    {
+      "commune": "Mouvaux",
+      "sales": 376,
+      "median_price_m2": 3361.19765646289,
+      "flats_share": 0.265957446808511
+    },
+    {
+      "commune": "Lambersart",
+      "sales": 794,
+      "median_price_m2": 3353.62654320988,
+      "flats_share": 0.343828715365239
+    },
+    {
+      "commune": "La Madeleine",
+      "sales": 743,
+      "median_price_m2": 3327.77777777778,
+      "flats_share": 0.647375504710633
+    },
+    {
+      "commune": "Marquette-lez-Lille",
+      "sales": 247,
+      "median_price_m2": 3298.3606557377,
+      "flats_share": 0.198380566801619
+    },
+    {
+      "commune": "Wasquehal",
+      "sales": 458,
+      "median_price_m2": 3202.5824829932,
+      "flats_share": 0.255458515283843
+    },
+    {
+      "commune": "Lesquin",
+      "sales": 159,
+      "median_price_m2": 3046.15384615385,
+      "flats_share": 0.251572327044025
+    },
+    {
+      "commune": "Linselles",
+      "sales": 177,
+      "median_price_m2": 2882.35294117647,
+      "flats_share": 0.146892655367232
+    },
+    {
+      "commune": "Villeneuve-d'Ascq",
+      "sales": 1015,
+      "median_price_m2": 2841.46341463415,
+      "flats_share": 0.340886699507389
+    },
+    {
+      "commune": "Roncq",
+      "sales": 296,
+      "median_price_m2": 2757.67144729179,
+      "flats_share": 0.195945945945946
+    },
+    {
+      "commune": "Neuville-en-Ferrain",
+      "sales": 204,
+      "median_price_m2": 2661.09022556391,
+      "flats_share": 0.0882352941176471
+    },
+    {
+      "commune": "Pérenchies",
+      "sales": 212,
+      "median_price_m2": 2614.51295617962,
+      "flats_share": 0.169811320754717
+    },
+    {
+      "commune": "Hem",
+      "sales": 277,
+      "median_price_m2": 2611.42857142857,
+      "flats_share": 0.0685920577617329
+    },
+    {
+      "commune": "Leers",
+      "sales": 182,
+      "median_price_m2": 2609.743391858,
+      "flats_share": 0.0604395604395604
+    },
+    {
+      "commune": "Croix",
+      "sales": 612,
+      "median_price_m2": 2557.55813953488,
+      "flats_share": 0.397058823529412
+    },
+    {
+      "commune": "Loos",
+      "sales": 488,
+      "median_price_m2": 2510.9159943047,
+      "flats_share": 0.51844262295082
+    },
+    {
+      "commune": "Faches-Thumesnil",
+      "sales": 458,
+      "median_price_m2": 2479.47058823529,
+      "flats_share": 0.189956331877729
+    },
+    {
+      "commune": "La Chapelle-d'Armentières",
+      "sales": 185,
+      "median_price_m2": 2452.83018867925,
+      "flats_share": 0.167567567567568
+    },
+    {
+      "commune": "Seclin",
+      "sales": 278,
+      "median_price_m2": 2396.8962585034,
+      "flats_share": 0.205035971223022
+    },
+    {
+      "commune": "Ronchin",
+      "sales": 454,
+      "median_price_m2": 2374.73404255319,
+      "flats_share": 0.323788546255507
+    },
+    {
+      "commune": "Wattignies",
+      "sales": 335,
+      "median_price_m2": 2333.33333333333,
+      "flats_share": 0.382089552238806
+    },
+    {
+      "commune": "Comines",
+      "sales": 238,
+      "median_price_m2": 2270.66535539881,
+      "flats_share": 0.180672268907563
+    },
+    {
+      "commune": "Haubourdin",
+      "sales": 348,
+      "median_price_m2": 2246.76056338028,
+      "flats_share": 0.330459770114943
+    },
+    {
+      "commune": "Mons-en-Barœul",
+      "sales": 432,
+      "median_price_m2": 2244.12690605017,
+      "flats_share": 0.456018518518519
+    },
+    {
+      "commune": "Lys-lez-Lannoy",
+      "sales": 351,
+      "median_price_m2": 2229.34782608696,
+      "flats_share": 0.273504273504274
+    },
+    {
+      "commune": "Houplines",
+      "sales": 185,
+      "median_price_m2": 2208.33333333333,
+      "flats_share": 0.0108108108108108
+    },
+    {
+      "commune": "Annœullin",
+      "sales": 207,
+      "median_price_m2": 2180.97826086957,
+      "flats_share": 0.111111111111111
+    },
+    {
+      "commune": "Halluin",
+      "sales": 415,
+      "median_price_m2": 2152.11267605634,
+      "flats_share": 0.118072289156627
+    },
+    {
+      "commune": "Armentières",
+      "sales": 641,
+      "median_price_m2": 1900,
+      "flats_share": 0.282371294851794
+    },
+    {
+      "commune": "Wattrelos",
+      "sales": 773,
+      "median_price_m2": 1876.92307692308,
+      "flats_share": 0.117723156532988
+    },
+    {
+      "commune": "La Bassée",
+      "sales": 155,
+      "median_price_m2": 1833.33333333333,
+      "flats_share": 0.0774193548387097
+    },
+    {
+      "commune": "Tourcoing",
+      "sales": 2213,
+      "median_price_m2": 1768.29268292683,
+      "flats_share": 0.356529597830999
+    },
+    {
+      "commune": "Roubaix",
+      "sales": 1422,
+      "median_price_m2": 1560.81989247312,
+      "flats_share": 0.313642756680731
+    }
+  ],
+  "model": {
+    "r_squared": 0.632,
+    "test_sales": 15292,
+    "median_abs_error_pct": 20.8,
+    "within_20_pct": 48.5,
+    "above_30_pct": 19.4,
+    "below_30_pct": 13.5,
+    "above_50_pct": 8.7,
+    "below_50_pct": 3.2
+  },
+  "coefficients": [
+    {
+      "term": "log(surface)",
+      "estimate": 0.7299,
+      "std.error": 0.0058,
+      "statistic": 126.5879,
+      "p.value": 0
+    },
+    {
+      "term": "typeHouse",
+      "estimate": -1.0028,
+      "std.error": 0.0313,
+      "statistic": -32.0289,
+      "p.value": 0
+    },
+    {
+      "term": "rooms",
+      "estimate": 0.0066,
+      "std.error": 0.0018,
+      "statistic": 3.7084,
+      "p.value": 0.0002
+    },
+    {
+      "term": "log(surface):typeHouse",
+      "estimate": 0.2313,
+      "std.error": 0.0073,
+      "statistic": 31.7061,
+      "p.value": 0
+    }
+  ],
+  "example": [
+    {
+      "commune": "Lille",
+      "type": "Flat",
+      "surface": 60,
+      "rooms": 3,
+      "quarter": "2025-Q4",
+      "estimate": 196000
+    },
+    {
+      "commune": "Roubaix",
+      "type": "Flat",
+      "surface": 60,
+      "rooms": 3,
+      "quarter": "2025-Q4",
+      "estimate": 95000
+    },
+    {
+      "commune": "Marcq-en-Barœul",
+      "type": "Flat",
+      "surface": 60,
+      "rooms": 3,
+      "quarter": "2025-Q4",
+      "estimate": 224000
+    },
+    {
+      "commune": "Villeneuve-d'Ascq",
+      "type": "Flat",
+      "surface": 60,
+      "rooms": 3,
+      "quarter": "2025-Q4",
+      "estimate": 181000
+    }
+  ]
+}

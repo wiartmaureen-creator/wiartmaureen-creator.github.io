@@ -1,0 +1,125 @@
+---
+title: "What drives housing prices in the Lille metropolitan area?"
+subtitle: "Public property sales (DVF), 2021-2025"
+author: "Maureen Wiart"
+date: "October 2026"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: flatly
+    self_contained: true
+    df_print: kable
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 8, fig.height = 4.6, dpi = 120)
+source(file.path(getwd(), "R", "02_analysis.R"), local = knitr::knit_global())
+fmt <- function(x, digits = 0) format(round(x, digits), big.mark = ",", nsmall = digits)
+```
+
+## The question
+
+Buyers, lenders and estate agents all ask the same thing: **is this price in line with the market?**
+This report uses every recorded sale of a flat or a house in the 95 communes of the Métropole Européenne
+de Lille between 2021 and 2025 to answer three questions:
+
+1. How have prices moved since 2021, once differences in the homes sold are taken into account?
+2. How much does location matter?
+3. How well can a home's price be estimated from public data, and which sales stand out?
+
+**Data.** *Demandes de valeurs foncières géolocalisées* (DVF), published by Etalab from the tax
+administration's records, open licence. One row per item of a sale; a sale with a flat, a cellar and a
+parking space appears three times with the same total price. To get a reliable price per m², the analysis
+keeps sales of exactly one dwelling (with or without outbuildings) and removes implausible values.
+
+```{r}
+tibble::tibble(
+  Step = c("Rows in the Nord files, 2021-2025", "Sale rows in the 95 MEL communes",
+           "Sales of exactly one dwelling", "After quality filters (surface, price, price per m²)"),
+  Rows = fmt(unlist(steps[c("all_rows", "mel_sale_rows", "single_dwelling_sales", "after_quality_filters")]))
+)
+```
+
+## 1. Prices since 2021
+
+```{r}
+p1
+```
+
+Median prices per m² barely move: flats went from `r fmt(yearly$median_price_m2[yearly$year == 2021 & yearly$type == "Flat"])` € in
+2021 to `r fmt(yearly$median_price_m2[yearly$year == 2025 & yearly$type == "Flat"])` € in 2025. But medians can mislead:
+when interest rates rose in 2023, fewer first-time buyers bought small flats, so the *mix* of homes sold changed.
+
+A **quality-adjusted index** separates the two effects. A regression explains the log of the price per m² by the
+commune, the type of home, its surface and number of rooms, and one coefficient per year: that coefficient is the
+price change for a comparable home.
+
+```{r}
+p4
+```
+
+```{r}
+index |> transmute(Year = year, `Quality-adjusted index` = round(hedonic, 1), `Raw median index` = round(raw, 1))
+```
+
+Comparable homes gained about 5% in 2022, then lost about 6% by 2024 as rates rose, before recovering in 2025 to
+roughly their 2021 level. The raw median overstates 2023: the homes sold that year were, on average, more expensive
+kinds of homes.
+
+## 2. Location
+
+```{r, fig.height = 5.6}
+p2
+```
+
+```{r, fig.height = 6.2}
+p3
+```
+
+A square metre costs more than twice as much in Marcq-en-Barœul or Lille as in Roubaix or Tourcoing, a few
+kilometres away. The map shows the gradient: the centre of Lille and the north-western suburbs on one side, the
+north-eastern former textile towns on the other.
+
+## 3. Estimating a price
+
+The valuation model explains the log of the price by the log of the surface (with a different slope for houses),
+the number of rooms, the commune and the quarter of the sale. It was fitted on 80% of the sales and tested on the
+other 20%.
+
+```{r}
+tibble::tibble(
+  Measure = c("Share of price variation explained (R², training)", "Sales in the test set",
+              "Median error on test sales", "Test sales within ±20% of the estimate",
+              "Sold more than 50% above the estimate", "Sold more than 50% below the estimate"),
+  Value = c(model_quality$r_squared, fmt(model_quality$test_sales), paste0(model_quality$median_abs_error_pct, "%"),
+            paste0(model_quality$within_20_pct, "%"), paste0(model_quality$above_50_pct, "%"),
+            paste0(model_quality$below_50_pct, "%"))
+)
+```
+
+```{r}
+p5
+```
+
+A typical error of about ±21% is honest for public data: DVF says nothing about a home's condition, floor, view,
+energy rating or renovation. The model is good enough to **screen** sales, not to value one specific home.
+
+What it says about a 60 m², 3-room flat sold at the end of 2025:
+
+```{r}
+example |> transmute(Commune = commune, `Estimated price` = paste0(fmt(estimate), " €"))
+```
+
+## What this means in practice
+
+* **For a buyer or a lender:** prices for comparable homes are back to their 2021 level after the 2022-2024
+  correction; a price well above the model's range deserves a closer look at what justifies it.
+* **For a bank checking collateral:** an automatic estimate can flag mortgage files where the purchase price is far
+  above the market (about `r model_quality$above_50_pct`% of sales are more than 50% above the estimate) and send
+  only those to a full appraisal.
+* **For compliance teams:** a property bought far above or below its market value is a classic red flag for money
+  laundering in real estate. A screen like this one is a cheap first filter, to combine with the other indicators.
+
+*Limits: no information on condition or energy rating; the 20% test sample is random, not later in time; outliers
+are removed with simple bounds. The full code is in the `R/` folder of the project.*

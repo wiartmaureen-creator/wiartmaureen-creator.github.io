@@ -1,0 +1,13 @@
+store_id,store_name,region,channel,opened,surface_m2
+S01,Lille,Hauts-de-France,Store,2011,5200
+S02,Arras,Hauts-de-France,Store,2016,3100
+S03,Amiens,Hauts-de-France,Store,2014,3400
+S04,Montreuil,Ile-de-France,Store,2012,4600
+S05,Versailles,Ile-de-France,Store,2018,4300
+S06,Metz,Grand Est,Store,2015,3500
+S07,Reims,Grand Est,Store,2017,3200
+S08,Rouen,Normandie,Store,2013,3900
+S09,Caen,Normandie,Store,2019,3300
+S10,Lyon,Auvergne-Rhone-Alpes,Store,2010,5000
+S11,Grenoble,Auvergne-Rhone-Alpes,Store,2020,3600
+S12,Online shop,National,Online,2019,0

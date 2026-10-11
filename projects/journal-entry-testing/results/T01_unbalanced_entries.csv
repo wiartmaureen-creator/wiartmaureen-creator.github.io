@@ -1,0 +1,3 @@
+entry_number,journal_code,entry_date,created_by,total_debit,total_credit,difference,possible_transposition,description
+MISC25-00024,MISC,2025-07-31,cmoreau,4260.0,4200.0,60.0,No,Accrued maintenance - July 2025
+MISC25-00014,MISC,2025-04-30,cmoreau,1875.2,1857.2,18.0,Yes,Accrued fees - April 2025

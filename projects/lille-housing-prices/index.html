@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lille Housing Prices · Maureen Wiart</title>
+  <meta name="description" content="Case study in R: 76,047 public property sales in the Lille metropolitan area, a quality-adjusted price index, location effects and a valuation model to screen sales far from market value.">
+  <meta property="og:title" content="What drives housing prices in Lille? · Maureen Wiart">
+  <meta property="og:description" content="Public DVF data, R and a hedonic price index: prices back to their 2021 level, location effects, and a screen for sales far from market value.">
+  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <script>
+    try {
+      var savedTheme = localStorage.getItem("portfolio-theme");
+      if (savedTheme === "light" || savedTheme === "dark") {
+        document.documentElement.setAttribute("data-theme", savedTheme);
+      }
+    } catch (error) { /* storage unavailable: follow the OS setting */ }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../../" aria-label="Maureen Wiart, home">
+        <span class="brand-mark" aria-hidden="true">MW</span>
+        <span class="brand-text">
+          <span class="brand-name">Maureen Wiart</span>
+          <span class="brand-role">Data Analyst</span>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="../../#method">How I work</a>
+        <a href="../../#projects">Projects</a>
+        <a href="../../#skills">Skills</a>
+        <a href="../../#about">About</a>
+        <a href="../../#contact">Contact</a>
+      </nav>
+      <button class="icon-button" type="button" data-theme-toggle aria-label="Switch between light and dark mode">
+        <svg class="theme-icon-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+        <svg class="theme-icon-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="case-hero">
+      <div class="container">
+        <a class="back-link" href="../../#projects">← All projects</a>
+        <span class="eyebrow">Case study · R</span>
+        <h1>What drives housing prices in Lille? Real sales, public data</h1>
+        <p class="case-lead">
+          Every recorded sale of a flat or a house in the Lille metropolitan area from 2021 to 2025, from the tax
+          administration's open data. I built a quality-adjusted price index, measured the weight of location, and
+          fitted a valuation model that flags sales far from the market price.
+        </p>
+        <div class="case-meta">
+          <span><strong>Tools</strong> R (dplyr, ggplot2, broom), R Markdown</span>
+          <span><strong>Data</strong> DVF open data (Etalab / DGFiP), 95 communes, 2021–2025</span>
+          <span><strong>Skills</strong> data cleaning, regression, statistical reasoning</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="kpi-row" aria-label="Key figures">
+        <div class="card kpi">
+          <div class="kpi-label">Sales analysed</div>
+          <div class="kpi-value" data-kpi="sales">76,047</div>
+          <div class="kpi-note" data-kpi="sales-note">from 553,756 raw records</div>
+        </div>
+        <div class="card kpi">
+          <div class="kpi-label">Price index 2025</div>
+          <div class="kpi-value" data-kpi="index">100.4</div>
+          <div class="kpi-note" data-kpi="index-note">2021 = 100, quality-adjusted</div>
+        </div>
+        <div class="card kpi">
+          <div class="kpi-label">Lille vs Roubaix</div>
+          <div class="kpi-value" data-kpi="ratio">2.2×</div>
+          <div class="kpi-note">price per m², 2024–2025</div>
+        </div>
+        <div class="card kpi">
+          <div class="kpi-label">Valuation error</div>
+          <div class="kpi-value" data-kpi="error">±21%</div>
+          <div class="kpi-note">median, on sales the model never saw</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 01 Problem -->
+    <section class="case-section">
+      <div class="container prose">
+        <span class="section-number">01 · The question</span>
+        <h2>Is this price in line with the market?</h2>
+        <p>
+          Buyers ask it before an offer, banks before a mortgage, estate agents before a listing, and compliance
+          teams when a transaction looks odd: a property bought far above or below its value is a classic red flag
+          for money laundering in real estate. Since 2019 the French tax administration publishes every property sale
+          (DVF). That is enough to answer three questions for the Lille metropolitan area:
+        </p>
+        <ol class="next-list">
+          <li>How have prices moved since 2021, for comparable homes?</li>
+          <li>How much does location matter?</li>
+          <li>How well can public data estimate a price, and which sales stand out?</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 02 Data -->
+    <section class="case-section">
+      <div class="container">
+        <div class="prose">
+          <span class="section-number">02 · The data</span>
+          <h2>From 553,756 raw rows to 76,047 usable sales</h2>
+          <p>
+            DVF records each <em>item</em> of a sale: a flat, its cellar and its parking space appear as three rows sharing
+            one total price. Dividing that price by the flat's surface would overstate the price per m², so the
+            analysis keeps sales of exactly one dwelling (with or without outbuildings), then removes implausible values.
+          </p>
+        </div>
+        <div class="card chart-card" style="padding: 0; overflow: hidden;">
+          <div id="steps-table"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 Results -->
+    <section class="case-section">
+      <div class="container">
+        <div class="prose">
+          <span class="section-number">03 · Results</span>
+          <h2>Prices are back where they were in 2021</h2>
+          <p>
+            Medians can mislead: when rates rose in 2023, fewer first-time buyers bought small flats, so the mix of homes
+            sold changed. A regression with commune, type, surface and rooms isolates the price change for a
+            <strong>comparable</strong> home each year: a quality-adjusted (hedonic) index.
+          </p>
+        </div>
+
+        <div class="card chart-card" id="index-card">
+          <div class="chart-head">
+            <div>
+              <h3>Price index, 2021 = 100</h3>
+              <p>Quality-adjusted (regression) against the raw median price per m²</p>
+            </div>
+            <button class="chart-toggle" type="button">Show table</button>
+          </div>
+          <div class="legend">
+            <span class="legend-item"><span class="legend-line" style="background: var(--series-1)"></span>Quality-adjusted</span>
+            <span class="legend-item"><span class="legend-line" style="background: var(--axis)"></span>Raw median</span>
+          </div>
+          <div class="chart" id="index-chart"></div>
+          <p class="chart-note" data-text="index-note">Comparable homes gained about 5% in 2022, lost about 6% by 2024, and recovered in 2025.</p>
+        </div>
+
+        <div class="card chart-card" id="communes-card">
+          <div class="chart-head">
+            <div>
+              <h3>Price per m² in the 20 busiest communes</h3>
+              <p>Median, 2024–2025: more than twice as much in Marcq-en-Barœul or Lille as in Roubaix, a few kilometres away</p>
+            </div>
+            <button class="chart-toggle" type="button">Show table</button>
+          </div>
+          <div class="chart" id="communes-chart"></div>
+        </div>
+
+        <div class="figure-grid" style="margin-top: 24px;">
+          <figure class="figure">
+            <a class="figure-frame" href="images/map.png" target="_blank" rel="noopener">
+              <img src="images/map.png" alt="Map of every 2024-2025 sale coloured by price per square metre: darkest in central Lille and the north-western suburbs, lightest in Roubaix and Tourcoing" loading="lazy" width="1050" height="900">
+            </a>
+            <figcaption><span>Every sale of 2024–2025, coloured by price per m² (ggplot2)</span><a href="images/map.png" target="_blank" rel="noopener">Full size</a></figcaption>
+          </figure>
+          <figure class="figure">
+            <a class="figure-frame" href="images/valuation.png" target="_blank" rel="noopener">
+              <img src="images/valuation.png" alt="Scatter of actual sale prices against the model's estimates on test sales, clustered around the diagonal with a wide spread" loading="lazy" width="1050" height="690">
+            </a>
+            <figcaption><span>Sale price against the estimate, on the 20% of sales held out</span><a href="images/valuation.png" target="_blank" rel="noopener">Full size</a></figcaption>
+          </figure>
+        </div>
+
+        <div class="prose" style="margin-top: 28px;">
+          <h3>How good is a price estimate from public data?</h3>
+          <p class="muted" data-text="model">
+            The model explains 63% of the variation in prices. On sales it never saw, the median error is ±21%:
+            honest for data that says nothing about condition, floor, view or energy rating. Good enough to
+            screen sales, not to value one specific home.
+          </p>
+          <div id="example-table"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 Decisions -->
+    <section class="case-section">
+      <div class="container">
+        <div class="prose">
+          <span class="section-number">04 · From analysis to decision</span>
+          <h2>Who can use this, and how</h2>
+        </div>
+        <div class="card chart-card" style="padding: 0; overflow: hidden;">
+          <div class="table-wrap decision-table" style="border: 0;">
+            <table>
+              <caption style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">Uses of the analysis</caption>
+              <thead>
+                <tr><th scope="col">Who</th><th scope="col">Finding</th><th scope="col">Decision it supports</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Buyer or seller</strong></td>
+                  <td class="decision">Comparable homes are back to their 2021 price after the 2022–2024 correction; location explains far more than timing.</td>
+                  <td class="improvement">Negotiate from the estimate's range; compare communes a few kilometres apart before choosing.</td>
+                </tr>
+                <tr>
+                  <td><strong>Bank (mortgage collateral)</strong></td>
+                  <td class="decision" data-text="bank">About 9% of sales are more than 50% above the model's estimate.</td>
+                  <td class="improvement">Use the estimate as an automatic first check and send only the outliers to a full appraisal.</td>
+                </tr>
+                <tr>
+                  <td><strong>Compliance team (AML)</strong></td>
+                  <td class="decision">A purchase far above or below market value is a known money-laundering red flag in real estate.</td>
+                  <td class="improvement">A cheap first filter on transactions, to combine with other indicators (buyer profile, source of funds).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 Code -->
+    <section class="case-section">
+      <div class="container">
+        <div class="prose">
+          <span class="section-number">05 · Inside the code</span>
+          <h2>Three steps in R</h2>
+        </div>
+        <div class="code-tabs" data-tabs>
+          <div class="tab-list" role="tablist" aria-label="Code excerpts">
+            <button role="tab" id="tab-clean" aria-controls="panel-clean" aria-selected="true">One dwelling per sale</button>
+            <button role="tab" id="tab-index" aria-controls="panel-index" aria-selected="false" tabindex="-1">Hedonic index</button>
+            <button role="tab" id="tab-model" aria-controls="panel-model" aria-selected="false" tabindex="-1">Valuation model</button>
+          </div>
+          <div class="code-panel" role="tabpanel" id="panel-clean" aria-labelledby="tab-clean">
+            <p>The key cleaning decision: a sale's price can only be divided by a surface when the sale contains one dwelling.</p>
+<pre class="code"><code class="language-r">one_dwelling &lt;- sales |&gt;
+  group_by(id_mutation) |&gt;
+  filter(sum(type_local %in% c("Appartement", "Maison")) == 1) |&gt;   # exactly one dwelling
+  ungroup() |&gt;
+  filter(type_local %in% c("Appartement", "Maison"))
+
+clean &lt;- one_dwelling |&gt;
+  mutate(price_m2 = valeur_fonciere / surface_reelle_bati) |&gt;
+  filter(surface_reelle_bati &gt;= 10, surface_reelle_bati &lt;= 400,
+         price_m2 &gt;= 500, price_m2 &lt;= 12000)</code></pre>
+          </div>
+          <div class="code-panel" role="tabpanel" id="panel-index" aria-labelledby="tab-index" hidden>
+            <p>One coefficient per year, holding commune, type, surface and rooms constant: the price change for a comparable home.</p>
+<pre class="code"><code class="language-r">index_model &lt;- lm(log(price_m2) ~ factor(year) + type + log(surface) + rooms + commune,
+                  data = sales)
+
+year_effects &lt;- tidy(index_model) |&gt;
+  filter(grepl("factor\\(year\\)", term)) |&gt;
+  transmute(year = as.integer(sub("factor\\(year\\)", "", term)),
+            hedonic = exp(estimate) * 100)        # 2021 = 100</code></pre>
+          </div>
+          <div class="code-panel" role="tabpanel" id="panel-model" aria-labelledby="tab-model" hidden>
+            <p>Fitted on 80% of the sales, judged on the other 20%: the honest test of a valuation model.</p>
+<pre class="code"><code class="language-r">valuation &lt;- lm(log(price) ~ log(surface) * type + rooms + commune + quarter, data = train)
+
+test &lt;- test |&gt;
+  mutate(estimate = exp(predict(valuation, newdata = pick(everything()))),
+         gap = price / estimate - 1)
+
+median(abs(test$gap))         # typical error
+mean(test$gap &gt; 0.50)         # sales far above the market</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 Files -->
+    <section class="case-section">
+      <div class="container prose">
+        <span class="section-number">06 · Files</span>
+        <h2>Read the report, run the code</h2>
+        <ul class="file-list">
+          <li><a class="card" href="report/lille_housing.html"><span class="mono">report/lille_housing.html</span><span>The full R Markdown report</span></a></li>
+          <li><a class="card" href="README.md"><span class="mono">README.md</span><span>Project overview</span></a></li>
+          <li><a class="card" href="R/01_prepare_data.R"><span class="mono">R/01_prepare_data.R</span><span>Download and clean DVF</span></a></li>
+          <li><a class="card" href="R/02_analysis.R"><span class="mono">R/02_analysis.R</span><span>Trends, index, model, figures</span></a></li>
+        </ul>
+        <p class="muted" style="margin-top: 16px;">Source: <em>Demandes de valeurs foncières géolocalisées</em>, Etalab / DGFiP, Licence Ouverte 2.0.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-current-year>2026</span> Maureen Wiart</span>
+      <span>Public data: DVF, Etalab / DGFiP (Licence Ouverte 2.0).</span>
+    </div>
+  </footer>
+
+  <script src="results/summary.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script src="../../assets/js/charts.js"></script>
+  <script src="../../assets/js/case-study.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="page.js"></script>
+</body>
+</html>

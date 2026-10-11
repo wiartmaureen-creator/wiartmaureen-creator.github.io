@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bank Reconciliation · Maureen Wiart</title>
+  <meta name="description" content="Case study: an Excel tool (Power Query + formulas) that reconciles a month of bank transactions automatically and lists only the items that need a decision.">
+  <meta property="og:title" content="Automated bank reconciliation in Excel · Maureen Wiart">
+  <meta property="og:description" content="229 bank lines, 96.9% matched automatically, 16 items to explain, €0.00 unexplained difference.">
+  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <script>
+    try {
+      var savedTheme = localStorage.getItem("portfolio-theme");
+      if (savedTheme === "light" || savedTheme === "dark") {
+        document.documentElement.setAttribute("data-theme", savedTheme);
+      }
+    } catch (error) { /* storage unavailable: follow the OS setting */ }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../../" aria-label="Maureen Wiart, home">
+        <span class="brand-mark" aria-hidden="true">MW</span>
+        <span class="brand-text">
+          <span class="brand-name">Maureen Wiart</span>
+          <span class="brand-role">Data Analyst</span>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="../../#method">How I work</a>
+        <a href="../../#projects">Projects</a>
+        <a href="../../#skills">Skills</a>
+        <a href="../../#about">About</a>
+        <a href="../../#contact">Contact</a>
+      </nav>
+      <button class="icon-button" type="button" data-theme-toggle aria-label="Switch between light and dark mode">
+        <svg class="theme-icon-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+        <svg class="theme-icon-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="case-hero">
+      <div class="container">
+        <a class="back-link" href="../../#projects">← All projects</a>
+        <span class="eyebrow">Case study · Excel</span>
+        <h1>Automated bank reconciliation: from 229 lines to tick to 16 decisions</h1>
+        <p class="case-lead">
+          Every month, finance teams tick bank lines against the ledger by hand. I built a reusable
+          Excel tool, with Power Query and formulas and no macros, that does the matching, produces the reconciliation
+          statement with integrity checks, and lists only the items that need a human decision.
+        </p>
+        <div class="case-meta">
+          <span><strong>Tools</strong> Excel, Power Query (M), Python for testing</span>
+          <span><strong>Data</strong> December 2025 bank export and ledger, same fictitious company as project 1</span>
+          <span><strong>Skills</strong> data cleaning, lookup logic, controls, process design</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="kpi-row" aria-label="Key figures">
+        <div class="card kpi">
+          <div class="kpi-label">Bank lines imported</div>
+          <div class="kpi-value" data-kpi="lines">229</div>
+          <div class="kpi-note" data-kpi="lines-note">against 232 ledger lines</div>
+        </div>
+        <div class="card kpi">
+          <div class="kpi-label">Matched automatically</div>
+          <div class="kpi-value" data-kpi="matched">96.9%</div>
+          <div class="kpi-note" data-kpi="matched-note">207 by reference, 15 by amount and date</div>
+        </div>
+        <div class="card kpi">
+          <div class="kpi-label">Items left to explain</div>
+          <div class="kpi-value" data-kpi="items">16</div>
+          <div class="kpi-note">each with a proposed action</div>
+        </div>
+        <div class="card kpi">
+          <div class="kpi-label">Unexplained difference</div>
+          <div class="kpi-value is-good" data-kpi="difference">€0.00</div>
+          <div class="kpi-note">3 integrity checks passed</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 01 Problem -->
+    <section class="case-section">
+      <div class="container prose">
+        <span class="section-number">01 · The business problem</span>
+        <h2>A monthly chore that delays the close</h2>
+        <p>
+          Before the monthly accounts can be closed, someone has to prove that the cash in the books matches
+          the cash at the bank. In many companies this means printing the statement and ticking hundreds of
+          lines against the ledger. It takes hours, it depends on one person, and the items that actually
+          matter (a payment for the wrong amount, a direct debit nobody booked) are easy to miss in the noise.
+        </p>
+        <div class="callout">
+          <p><strong>Goal:</strong> a tool that a finance team can reuse every month without a developer: drop in
+          the new files, refresh, and spend time only on the items that need a decision.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 Data -->
+    <section class="case-section">
+      <div class="container">
+        <div class="prose">
+          <span class="section-number">02 · The data</span>
+          <h2>Two files that do not speak the same language</h2>
+          <p>
+            The <strong>ledger extract</strong> comes from the same fictitious company as the
+            <a href="../journal-entry-testing/">journal entry testing project</a>: the 232 December lines of bank
+            account 512000. The <strong>bank export</strong> is what a French bank actually sends: semicolon
+            separators, comma decimals, dd/mm/yyyy dates, and cryptic labels where the ERP reference is sometimes cut off.
+          </p>
+        </div>
+<pre class="code"><code class="language-plaintext">Date opération;Date valeur;Libellé;Débit;Crédit
+01/12/2025;02/12/2025;VIR SEPA RECU /DE C001 /REF RCP-2501091;;4740,17
+03/12/2025;03/12/2025;VIR SEPA EMIS /A S027 /REF PMT-S027-69720;2908,79;
+03/12/2025;04/12/2025;VIR SEPA RECU /DE C021;;2855,74          ← no reference
+10/12/2025;10/12/2025;PRLV SEPA ASSURANCE MULTIRISQUE PRO /CONTRAT 2026-ANNUEL;1284,00;</code></pre>
+        <div class="prose">
+          <p class="muted" style="margin-top: 16px;">
+            On top of the normal flow, the statement contains the usual reconciling items, planted on purpose so the
+            result can be checked: bank charges and a direct debit nobody booked, an unidentified customer transfer,
+            payments not yet debited at year end, receipts not yet credited, and one payment for the wrong amount.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 Approach -->
+    <section class="case-section">
+      <div class="container">
+        <div class="prose">
+          <span class="section-number">03 · The approach</span>
+          <h2>Import, match, reconcile, classify</h2>
+          <p>
+            Everything happens inside the workbook, so the finance team owns it. The formulas only use functions
+            available since Excel 2016: many companies do not run Microsoft 365, and a tool that needs it would
+            not be used.
+          </p>
+        </div>
+        <ol class="steps">
+          <li class="card"><strong>Import</strong>Power Query reads both files, fixes French formats and extracts the reference from the label.</li>
+          <li class="card"><strong>Match by reference</strong>INDEX/MATCH finds the ledger entry with the same reference.</li>
+          <li class="card"><strong>Match by amount</strong>Lines without a reference: same amount within ±5 days, among unmatched entries.</li>
+          <li class="card"><strong>Reconcile</strong>The statement, plus checks that the import is complete and nothing is matched twice.</li>
+          <li class="card"><strong>Classify</strong>Keyword rules turn each leftover into a category and a proposed action.</li>
+        </ol>
+        <figure class="figure">
+          <a class="figure-frame" href="images/summary.png" target="_blank" rel="noopener">
+            <img src="images/summary.png" alt="Summary sheet of the workbook: 229 bank lines, 96.9% matched automatically, 16 items to explain, reconciled, with a bar chart of matching results" loading="lazy" width="1599" height="563">
+          </a>
+          <figcaption><span>The Summary sheet of the workbook (Excel 2019, French number format)</span><a href="images/summary.png" target="_blank" rel="noopener">Open full size</a></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 04 Results -->
+    <section class="case-section">
+      <div class="container">
+        <div class="prose">
+          <span class="section-number">04 · Results</span>
+          <h2>Reconciled to the cent, 16 items to look at</h2>
+          <p>
+            The reference rule matches 207 lines and the amount-and-date rule catches 15 more whose label had
+            lost its reference. One line matches on reference but not on amount, and six bank lines have no
+            counterpart in the books. Nine ledger lines are still waiting for the bank: normal at year end.
+          </p>
+        </div>
+
+        <div class="card chart-card" id="match-card">
+          <div class="chart-head">
+            <div>
+              <h3>Bank lines by matching result</h3>
+              <p>229 lines from the December statement</p>
+            </div>
+            <button class="chart-toggle" type="button">Show table</button>
+          </div>
+          <div class="chart" id="match-chart"></div>
+        </div>
+
+        <div class="figure-grid" style="margin-top: 24px;">
+          <figure class="figure">
+            <a class="figure-frame" href="images/reconciliation.png" target="_blank" rel="noopener">
+              <img src="images/reconciliation.png" alt="Bank reconciliation statement: adjusted bank balance 403,212.65 equals adjusted book balance 403,212.65, unexplained difference 0.00, three integrity checks passed" loading="lazy" width="921" height="500">
+            </a>
+            <figcaption><span>Reconciliation sheet: statement and integrity checks</span><a href="images/reconciliation.png" target="_blank" rel="noopener">Full size</a></figcaption>
+          </figure>
+          <div class="prose">
+            <h3>Reading the statement</h3>
+            <p class="muted">
+              The bank closing balance, adjusted for timing items (deposits in transit, outstanding payments),
+              must equal the book balance adjusted for what the books do not know yet (bank charges, direct
+              debits, transfers) and for keying errors. Both sides land on €403,212.65.
+            </p>
+            <p class="muted">
+              The three checks guard the tool itself: if a line is lost during the import, if the opening
+              balances disagree, or if one ledger entry is matched twice, the sheet turns red.
+            </p>
+          </div>
+        </div>
+
+        <figure class="figure">
+          <a class="figure-frame" href="images/actions.png" target="_blank" rel="noopener">
+            <img src="images/actions.png" alt="Actions sheet listing the 16 items to explain with date, amount, category and proposed action" loading="lazy" width="1831" height="453">
+          </a>
+          <figcaption><span>Actions sheet: every item to explain, with a proposed action</span><a href="images/actions.png" target="_blank" rel="noopener">Open full size</a></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 05 Decisions -->
+    <section class="case-section">
+      <div class="container">
+        <div class="prose">
+          <span class="section-number">05 · From items to decisions</span>
+          <h2>What the finance team should do</h2>
+          <p>Sixteen items, but only four decisions. The rest is timing and resolves itself in January.</p>
+        </div>
+        <div class="card chart-card" style="padding: 0; overflow: hidden;">
+          <div class="table-wrap decision-table" style="border: 0;">
+            <table>
+              <caption style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">Reconciling items, amounts, decisions and process improvements</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Item</th>
+                  <th scope="col" class="num">Amount</th>
+                  <th scope="col">Decision</th>
+                  <th scope="col">Process improvement</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Supplier S027 was debited €2,908.79</strong>; the ledger shows €2,098.79. The €810 gap divides by 9: two digits swapped.</td>
+                  <td class="num amount">€810</td>
+                  <td class="decision">Check the invoice. If it says €2,098.79, the supplier was overpaid: ask for a refund.</td>
+                  <td class="improvement">Generate payment files from the ERP instead of keying amounts by hand.</td>
+                </tr>
+                <tr>
+                  <td><strong>Insurance direct debit not booked</strong>, for the 2026 annual contract</td>
+                  <td class="num amount">€1,284</td>
+                  <td class="decision">Book it as a prepaid expense: it belongs to 2026, not to the 2025 result.</td>
+                  <td class="improvement">Keep a list of direct-debit mandates and book them as standard monthly entries.</td>
+                </tr>
+                <tr>
+                  <td><strong>Transfer from customer C047</strong>, "advance for January order"</td>
+                  <td class="num amount">€3,600</td>
+                  <td class="decision">Book it as a customer advance, not as revenue, and confirm the order.</td>
+                  <td class="improvement">Ask customers to quote the order or invoice number.</td>
+                </tr>
+                <tr>
+                  <td><strong>Bank charges</strong> (account fees, card commissions, intervention fees)</td>
+                  <td class="num amount">€180.90</td>
+                  <td class="decision">Book them.</td>
+                  <td class="improvement">A standard month-end entry from the bank's fee statement.</td>
+                </tr>
+                <tr>
+                  <td><strong>7 payments not yet debited, 2 receipts not yet credited</strong></td>
+                  <td class="num amount">€4,564<br><span class="muted" style="font-weight: 400; font-size: 0.8rem;">/ €1,274</span></td>
+                  <td class="decision">No action: check they appear on the January statement.</td>
+                  <td class="improvement">The workbook flags any that are still open next month.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="prose" style="margin-top: 28px;">
+          <div class="callout">
+            <p><strong>Process impact:</strong> the monthly reconciliation becomes a refresh plus a review of
+            16 items instead of ticking 229 lines. The checks make it safe to hand over to another team member, and
+            the 15 lines whose label lost its reference point to a quick win: ask the bank to keep the ERP
+            reference in transfer labels.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 Workbook internals -->
+    <section class="case-section">
+      <div class="container">
+        <div class="prose">
+          <span class="section-number">06 · Inside the workbook</span>
+          <h2>The pieces that do the work</h2>
+          <p>No macros, so no security warnings and nothing IT has to approve: Power Query for the import, formulas for the logic.</p>
+        </div>
+        <div class="code-tabs" data-tabs>
+          <div class="tab-list" role="tablist" aria-label="Workbook excerpts">
+            <button role="tab" id="tab-pq" aria-controls="panel-pq" aria-selected="true">Power Query import</button>
+            <button role="tab" id="tab-match" aria-controls="panel-match" aria-selected="false" tabindex="-1">Amount-and-date match</button>
+            <button role="tab" id="tab-rules" aria-controls="panel-rules" aria-selected="false" tabindex="-1">Classification</button>
+            <button role="tab" id="tab-recon" aria-controls="panel-recon" aria-selected="false" tabindex="-1">Statement formulas</button>
+          </div>
+
+          <div class="code-panel" role="tabpanel" id="panel-pq" aria-labelledby="tab-pq">
+            <p>The bank query: the folder and file name come from the Settings sheet, French formats are typed with the <code>fr-FR</code> culture, and the ERP reference is pulled out of the label.</p>
+<pre class="code"><code class="language-plaintext">let
+    Folder = Excel.CurrentWorkbook(){[Name="DataFolder"]}[Content]{0}[Column1],
+    FileName = Excel.CurrentWorkbook(){[Name="BankFile"]}[Content]{0}[Column1],
+    Source = Csv.Document(File.Contents(Folder &amp; FileName), [Delimiter = ";", Encoding = 65001]),
+    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+    Renamed = Table.RenameColumns(Promoted, List.Zip({Table.ColumnNames(Promoted),
+                  {"Date", "ValueDate", "Label", "Debit", "Credit"}})),
+    BlanksToNull = Table.ReplaceValue(Renamed, "", null, Replacer.ReplaceValue, {"Debit", "Credit"}),
+    Typed = Table.TransformColumnTypes(BlanksToNull, {{"Date", type date}, {"ValueDate", type date},
+                  {"Debit", type number}, {"Credit", type number}}, "fr-FR"),
+    WithAmount = Table.AddColumn(Typed, "Amount", each (if [Credit] = null then 0 else [Credit])
+                  - (if [Debit] = null then 0 else [Debit]), type number),
+    WithReference = Table.AddColumn(WithAmount, "Reference", each
+                  if Text.Contains([Label], "/REF ") then Text.Trim(Text.AfterDelimiter([Label], "/REF ")) else "", type text)
+in
+    WithReference</code></pre>
+          </div>
+
+          <div class="code-panel" role="tabpanel" id="panel-match" aria-labelledby="tab-match" hidden>
+            <p>For a bank line without a reference: the first ledger entry with the same amount, within the date tolerance, that was not already matched by reference. <code>INDEX(...,0)</code> lets <code>MATCH</code> test three conditions at once without an array formula.</p>
+<pre class="code"><code class="language-excel">=IF([@RefEntry]&lt;&gt;"", "",
+    IFERROR(INDEX(tblLedger[Entry],
+        MATCH(1, INDEX((tblLedger[Amount]=[@Amount])
+                       *(tblLedger[MatchedByRef]=FALSE)
+                       *(ABS(tblLedger[Date]-[@Date])&lt;=DateTolerance), 0), 0)),
+    ""))</code></pre>
+          </div>
+
+          <div class="code-panel" role="tabpanel" id="panel-rules" aria-labelledby="tab-rules" hidden>
+            <p>Each unmatched bank line gets the action of the first keyword found in its label. The rules live in a table: teaching the workbook a new case means adding a row, not editing a formula.</p>
+<pre class="code"><code class="language-excel">=IF([@Status]="Matched", "",
+  IF([@Status]="Amount difference", "Check the invoice: the bank and the ledger show different amounts",
+    IFERROR(INDEX(tblRules[Action],
+        MATCH(TRUE, INDEX(ISNUMBER(SEARCH(tblRules[Keyword],[@Label])), 0), 0)),
+    "Investigate with the bank")))</code></pre>
+          </div>
+
+          <div class="code-panel" role="tabpanel" id="panel-recon" aria-labelledby="tab-recon" hidden>
+            <p>The statement is a handful of SUMIFS on the two tables, plus checks that protect the tool against a silent import problem.</p>
+<pre class="code"><code class="language-excel">Deposits in transit      =SUMIFS(tblLedger[Amount], tblLedger[Status], "Deposit in transit")
+Outstanding payments     =SUMIFS(tblLedger[Amount], tblLedger[Status], "Outstanding payment")
+Bank items not booked    =SUMIFS(tblBank[Amount], tblBank[Status], "Not in books")
+Keying differences       =SUMIFS(tblBank[Difference], tblBank[Status], "Amount difference")
+Import complete?         =ROUND(OpeningBank + SUM(tblBank[Amount]) - StatementClosing, 2)
+Matched twice?           =SUMPRODUCT((tblBank[MatchedEntry]&lt;&gt;"")*(COUNTIF(tblBank[MatchedEntry],tblBank[MatchedEntry])&gt;1))</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 Next -->
+    <section class="case-section">
+      <div class="container prose">
+        <span class="section-number">07 · What I would do next</span>
+        <h2>Making it part of the close</h2>
+        <ul class="next-list">
+          <li>Carry the open items forward automatically, so January starts from December's outstanding list.</li>
+          <li>Add a third matching rule for one-to-many cases (one bank transfer paying several invoices).</li>
+          <li>Track the automatic match rate month after month as a KPI of data quality at the bank.</li>
+          <li>Connect it to the bank's daily feed to reconcile weekly instead of monthly.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 08 Files -->
+    <section class="case-section">
+      <div class="container prose">
+        <span class="section-number">08 · Files</span>
+        <h2>Try it yourself</h2>
+        <p>Open the workbook, check the Settings sheet, then <em>Data &gt; Refresh All</em>. The data files sit in the <code>data</code> folder next to it.</p>
+        <ul class="file-list">
+          <li><a class="card" href="bank_reconciliation.xlsx"><span class="mono">bank_reconciliation.xlsx</span><span>The tool (Excel 2016 or later)</span></a></li>
+          <li><a class="card" href="README.md"><span class="mono">README.md</span><span>Project overview</span></a></li>
+          <li><a class="card" href="data/bank_statement_2025-12.csv"><span class="mono">data/bank_statement_2025-12.csv</span><span>The bank export</span></a></li>
+          <li><a class="card" href="data/ledger_bank_2025-12.csv"><span class="mono">data/ledger_bank_2025-12.csv</span><span>The ledger extract</span></a></li>
+          <li><a class="card" href="src/build_workbook.py"><span class="mono">src/build_workbook.py</span><span>Builds and tests the workbook</span></a></li>
+          <li><a class="card" href="src/generate_bank_data.py"><span class="mono">src/generate_bank_data.py</span><span>Builds the bank statement</span></a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-current-year>2026</span> Maureen Wiart</span>
+      <span>Lumen Supplies SAS is fictitious. All data in this project is synthetic.</span>
+    </div>
+  </footer>
+
+  <script src="results/summary.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script src="../../assets/js/charts.js"></script>
+  <script src="../../assets/js/case-study.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="page.js"></script>
+</body>
+</html>

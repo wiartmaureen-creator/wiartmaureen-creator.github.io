@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fraud Detection · Maureen Wiart</title>
+  <meta name="description" content="Case study: replacing fraud alert rules with a cost-based machine learning model in Python. A third of the alerts, twice the fraud caught, about €19k saved a month.">
+  <meta property="og:title" content="Detecting fraudulent payments in Python · Maureen Wiart">
+  <meta property="og:description" content="Rules vs models, judged in euros: 13 alerts a day instead of 43, 87% of fraud caught instead of 44%.">
+  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <script>
+    try {
+      var savedTheme = localStorage.getItem("portfolio-theme");
+      if (savedTheme === "light" || savedTheme === "dark") {
+        document.documentElement.setAttribute("data-theme", savedTheme);
+      }
+    } catch (error) { /* storage unavailable: follow the OS setting */ }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../../" aria-label="Maureen Wiart, home">
+        <span class="brand-mark" aria-hidden="true">MW</span>
+        <span class="brand-text">
+          <span class="brand-name">Maureen Wiart</span>
+          <span class="brand-role">Data Analyst</span>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="../../#method">How I work</a>
+        <a href="../../#projects">Projects</a>
+        <a href="../../#skills">Skills</a>
+        <a href="../../#about">About</a>
+        <a href="../../#contact">Contact</a>
+      </nav>
+      <button class="icon-button" type="button" data-theme-toggle aria-label="Switch between light and dark mode">
+        <svg class="theme-icon-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+        <svg class="theme-icon-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="case-hero">
+      <div class="container">
+        <a class="back-link" href="../../#projects">← All projects</a>
+        <span class="eyebrow">Case study · Python</span>
+        <h1>Fraud detection: a third of the alerts, twice the fraud caught</h1>
+        <p class="case-lead">
+          A payment provider's fraud team drowns in false alerts from three rules while half of the fraud gets
+          through. I built behavioural features, compared the rules with two machine learning models, and chose
+          the alert threshold in euros: what an alert costs to review against what a missed fraud costs.
+        </p>
+        <div class="case-meta">
+          <span><strong>Tools</strong> Python, pandas, scikit-learn, matplotlib, Jupyter</span>
+          <span><strong>Data</strong> 241,831 card payments over six months, 0.40% fraudulent (synthetic)</span>
+          <span><strong>Skills</strong> feature engineering, model evaluation, cost-based decisions</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="kpi-row" aria-label="Key figures on May-June 2025">
+        <div class="card kpi">
+          <div class="kpi-label">Alerts per day</div>
+          <div class="kpi-value" data-kpi="alerts">13</div>
+          <div class="kpi-note" data-kpi="alerts-note">instead of 43 with the rules</div>
+        </div>
+        <div class="card kpi">
+          <div class="kpi-label">Fraud amount caught</div>
+          <div class="kpi-value is-good" data-kpi="recall">87%</div>
+          <div class="kpi-note" data-kpi="recall-note">instead of 44%</div>
+        </div>
+        <div class="card kpi">
+          <div class="kpi-label">Alerts that are real fraud</div>
+          <div class="kpi-value" data-kpi="precision">33%</div>
+          <div class="kpi-note" data-kpi="precision-note">instead of 5%</div>
+        </div>
+        <div class="card kpi">
+          <div class="kpi-label">Estimated saving</div>
+          <div class="kpi-value" data-kpi="saving">€19k</div>
+          <div class="kpi-note">per month, review cost + fraud missed</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 01 Problem -->
+    <section class="case-section">
+      <div class="container prose">
+        <span class="section-number">01 · The business problem</span>
+        <h2>Too many alerts, too much fraud getting through</h2>
+        <p>
+          Kestrel Pay (fictitious) alerts its fraud team with three rules: payments of €1,000 or more, online payments
+          abroad, and more than five payments in an hour. Most alerts are customers shopping on foreign websites or
+          travelling; meanwhile fraudsters who stay under €1,000 and pay from France are never flagged.
+        </p>
+        <p>
+          The usual way to judge a model ("accuracy") is useless here: with 4 frauds in 1,000 payments, a model that
+          never raises an alert is 99.6% accurate. The question that matters is financial: <em>for a given number of
+          alerts the team can handle, how much fraud do we stop, and what does the whole thing cost?</em>
+        </p>
+        <div class="callout">
+          <p><strong>Cost model:</strong> reviewing an alert costs about €8 (12 minutes of an analyst at €40/hour);
+          a fraud that is not alerted costs its full amount. The best threshold minimises the sum of the two.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 Data -->
+    <section class="case-section">
+      <div class="container">
+        <div class="prose">
+          <span class="section-number">02 · The data</span>
+          <h2>Six months of payments, with traps on purpose</h2>
+          <p>
+            Real payment data is confidential, so I simulated 3,000 customers with their own spending level, hours,
+            devices and trips abroad, then injected three fraud patterns: <strong>account takeover</strong> (bursts of
+            large payments, often from a new device), <strong>card testing</strong> (tiny payments, then large ones)
+            and <strong>quiet fraud</strong> (single payments that look normal). Legitimate behaviour deliberately looks
+            suspicious at times (foreign websites, new phones, night workers, strings of transport tickets) so
+            the problem is not artificially easy.
+          </p>
+        </div>
+        <figure class="figure">
+          <a class="figure-frame" href="images/exploration.png" target="_blank" rel="noopener">
+            <img src="images/exploration.png" alt="Fraud rate by hour (peaks at night), by merchant category (gift cards and electronics highest), and by channel and location (much higher abroad)" loading="lazy" width="1400" height="370">
+          </a>
+          <figcaption><span>Fraud concentrates at night, on gift cards and electronics, and abroad, but each signal alone is weak.</span><a href="notebooks/fraud_detection.ipynb">See the notebook</a></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 03 Approach -->
+    <section class="case-section">
+      <div class="container">
+        <div class="prose">
+          <span class="section-number">03 · The approach</span>
+          <h2>Behaviour, not single payments</h2>
+          <p>Fraud shows in a customer's behaviour more than in one payment. Every feature is computed from the customer's <strong>previous</strong> payments only: a feature that peeks at the future would look great in testing and fail in production.</p>
+        </div>
+        <ol class="steps">
+          <li class="card"><strong>Features</strong>Amount vs usual, new device, new country, bursts, tiny "test" payments, timing.</li>
+          <li class="card"><strong>Split by time</strong>Train January–March, tune April, test May–June.</li>
+          <li class="card"><strong>Baseline</strong>The three rules in place today, measured the same way.</li>
+          <li class="card"><strong>Models</strong>Logistic regression and gradient boosting (scikit-learn pipelines).</li>
+          <li class="card"><strong>Threshold</strong>The score above which to alert, chosen on cost, on April only.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 04 Results -->
+    <section class="case-section">
+      <div class="container">
+        <div class="prose">
+          <span class="section-number">04 · Results</span>
+          <h2>Judged in euros, on months the models never saw</h2>
+        </div>
+        <div class="card chart-card" style="padding: 0; overflow: hidden;">
+          <div id="approaches-table"></div>
+        </div>
+
+        <div class="card chart-card" id="cost-card">
+          <div class="chart-head">
+            <div>
+              <h3>Choosing the alert threshold</h3>
+              <p>Cost over May–June by gradient boosting threshold: lower thresholds mean more alerts to review, higher ones more fraud missed</p>
+            </div>
+            <button class="chart-toggle" type="button">Show table</button>
+          </div>
+          <div class="legend">
+            <span class="legend-item"><span class="legend-line" style="background: var(--series-1)"></span>Total cost</span>
+            <span class="legend-item"><span class="legend-line" style="background: var(--series-2)"></span>Fraud missed</span>
+            <span class="legend-item"><span class="legend-line" style="background: var(--axis)"></span>Review cost</span>
+          </div>
+          <div class="chart" id="cost-chart"></div>
+          <p class="chart-note" data-text="threshold-note">The threshold chosen on April (0.58) sits in the flat bottom of the curve.</p>
+        </div>
+
+        <div class="figure-grid" style="margin-top: 24px;">
+          <div class="card chart-card" style="margin-top: 0;">
+            <div class="chart-head">
+              <div>
+                <h3>What each pattern looks like to the rules and to the model</h3>
+                <p>Share of fraudulent payments caught, May–June</p>
+              </div>
+            </div>
+            <div id="pattern-bars"></div>
+          </div>
+          <div class="card chart-card" style="margin-top: 0;" id="drivers-card">
+            <div class="chart-head">
+              <div>
+                <h3>What drives the model</h3>
+                <p>Drop in average precision when each signal is shuffled</p>
+              </div>
+              <button class="chart-toggle" type="button">Show table</button>
+            </div>
+            <div class="chart" id="drivers-chart"></div>
+          </div>
+        </div>
+
+        <figure class="figure">
+          <a class="figure-frame" href="images/precision_recall.png" target="_blank" rel="noopener">
+            <img src="images/precision_recall.png" alt="Precision-recall curves: gradient boosting (average precision 0.72) above logistic regression (0.45); the current rules sit at 39% recall and 5% precision" loading="lazy" width="960" height="630" style="max-width: 640px; margin: 0 auto;">
+          </a>
+          <figcaption><span>Precision-recall curves (matplotlib, from the notebook): the rules sit far below both models.</span><a href="images/precision_recall.png" target="_blank" rel="noopener">Full size</a></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 05 Decision -->
+    <section class="case-section">
+      <div class="container">
+        <div class="prose">
+          <span class="section-number">05 · From model to decision</span>
+          <h2>What I would recommend to the head of fraud</h2>
+        </div>
+        <div class="card chart-card" style="padding: 0; overflow: hidden;">
+          <div class="table-wrap decision-table" style="border: 0;">
+            <table>
+              <caption style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">Recommendations and their impact</caption>
+              <thead>
+                <tr><th scope="col">Recommendation</th><th scope="col" class="num">Impact</th><th scope="col">Why</th><th scope="col">How to control it</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Replace the three rules with the model</strong>, after a two-week shadow run where both run side by side.</td>
+                  <td class="num amount">≈ €19k<br><span class="muted" style="font-weight: 400; font-size: 0.8rem;">a month</span></td>
+                  <td class="decision">Twice the fraud amount stopped (87% vs 44%) with a third of the alerts.</td>
+                  <td class="improvement">Weekly: fraud caught in euros, alerts per day, share of alerts confirmed.</td>
+                </tr>
+                <tr>
+                  <td><strong>Set the threshold from the team's capacity</strong>, around 13 alerts a day.</td>
+                  <td class="num amount">0.3<br><span class="muted" style="font-weight: 400; font-size: 0.8rem;">analyst / day</span></td>
+                  <td class="decision">The cost curve is flat around its minimum: the threshold can follow capacity at little cost.</td>
+                  <td class="improvement">Review the threshold each quarter with the cost curve.</td>
+                </tr>
+                <tr>
+                  <td><strong>Keep a safety-net rule</strong> for very large payments and retrain the model monthly.</td>
+                  <td class="num amount">Risk</td>
+                  <td class="decision">Fraud patterns change; a model trained on the past can miss a new one.</td>
+                  <td class="improvement">Track model performance by fraud pattern every month.</td>
+                </tr>
+                <tr>
+                  <td><strong>Fight "quiet" fraud with other controls</strong> (strong customer authentication, customer alerts).</td>
+                  <td class="num amount">22%<br><span class="muted" style="font-weight: 400; font-size: 0.8rem;">caught today</span></td>
+                  <td class="decision">Single payments that look normal cannot be seen in behaviour by any model.</td>
+                  <td class="improvement">Share of fraud reported by customers rather than detected.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="prose" style="margin-top: 28px;">
+          <p class="muted">Limits: synthetic data; the cost model ignores customer friction from false alerts and assumes every alerted fraud is stopped. A real project would calibrate both with the fraud team before deciding.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 Code -->
+    <section class="case-section">
+      <div class="container">
+        <div class="prose">
+          <span class="section-number">06 · Inside the code</span>
+          <h2>Two pieces that make the difference</h2>
+        </div>
+        <div class="code-tabs" data-tabs>
+          <div class="tab-list" role="tablist" aria-label="Code excerpts">
+            <button role="tab" id="tab-features" aria-controls="panel-features" aria-selected="true">Leakage-safe features</button>
+            <button role="tab" id="tab-cost" aria-controls="panel-cost" aria-selected="false" tabindex="-1">Threshold on cost</button>
+          </div>
+          <div class="code-panel" role="tabpanel" id="panel-features" aria-labelledby="tab-features">
+            <p>Rolling windows per customer with <code>closed="left"</code>: a payment's features only use payments made before it.</p>
+<pre class="code"><code class="language-python">def rolling_past(frame, column, window, how):
+    """Per-customer rolling statistic over a time window, excluding the current payment."""
+    rolled = (frame.set_index("timestamp").groupby("customer_id")[column]
+              .rolling(window, closed="left").agg(how))
+    return pd.Series(rolled.to_numpy(), index=frame.index).fillna(0)
+
+df["count_1h"] = rolling_past(df, "amount", "1h", "count")
+df["is_small"] = (df["amount"] &lt; 5).astype(int)
+df["small_payments_10min"] = rolling_past(df, "is_small", "10min", "sum")   # card testing
+usual = by_customer["amount"].transform(lambda s: s.shift().rolling(20, min_periods=1).mean())
+df["amount_vs_usual"] = (df["amount"] / usual).clip(upper=50)
+df["new_device"] = ((df.groupby(["customer_id", "device_id"]).cumcount() == 0)
+                    &amp; (df["prev_count"] &gt; 0)).astype(int)</code></pre>
+          </div>
+          <div class="code-panel" role="tabpanel" id="panel-cost" aria-labelledby="tab-cost" hidden>
+            <p>A simplified excerpt: the threshold is chosen on April only, by the business cost, then applied unchanged to May–June.</p>
+<pre class="code"><code class="language-python">REVIEW_COST = 8.0  # EUR per alert reviewed
+
+def best_threshold(scores, frame):
+    """Scan thresholds and keep the one with the lowest review cost + fraud missed."""
+    fraud = frame["is_fraud"].to_numpy() == 1
+    amount = frame["amount"].to_numpy()
+    curve = []
+    for t in candidate_thresholds(scores):
+        flags = scores &gt;= t
+        cost = flags.sum() * REVIEW_COST + amount[~flags &amp; fraud].sum()
+        curve.append((t, cost))
+    return min(curve, key=lambda item: item[1])
+
+threshold, _ = best_threshold(model.predict_proba(validation[features])[:, 1], validation)
+alerts = model.predict_proba(test[features])[:, 1] &gt;= threshold</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 Files -->
+    <section class="case-section">
+      <div class="container prose">
+        <span class="section-number">07 · Files</span>
+        <h2>Read the notebook, run the pipeline</h2>
+        <ul class="file-list">
+          <li><a class="card" href="notebooks/fraud_detection.ipynb"><span class="mono">notebooks/fraud_detection.ipynb</span><span>The full analysis, executed</span></a></li>
+          <li><a class="card" href="README.md"><span class="mono">README.md</span><span>Project overview</span></a></li>
+          <li><a class="card" href="src/fraud_pipeline.py"><span class="mono">src/fraud_pipeline.py</span><span>Features, models, threshold, figures</span></a></li>
+          <li><a class="card" href="src/generate_transactions.py"><span class="mono">src/generate_transactions.py</span><span>The simulated payments</span></a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-current-year>2026</span> Maureen Wiart</span>
+      <span>Kestrel Pay is fictitious. All data in this project is synthetic.</span>
+    </div>
+  </footer>
+
+  <script src="results/summary.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script src="../../assets/js/charts.js"></script>
+  <script src="../../assets/js/case-study.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="page.js"></script>
+</body>
+</html>

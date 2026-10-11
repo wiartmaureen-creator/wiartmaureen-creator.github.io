@@ -1,0 +1,7 @@
+entry_number,journal_code,entry_date,created_by,description,matched_keywords,amount
+MISC25-00011,MISC,2025-04-17,cmoreau,Correction of posting error - wrong expense account,correction,139.57
+MISC25-00013,MISC,2025-05-01,cmoreau,Misc regularisation,regularis,3420.0
+MISC25-00032,MISC,2025-09-26,cmoreau,Correction of posting error - wrong expense account,correction,499.22
+MISC25-00033,MISC,2025-09-30,cmoreau,Inventory adjustment,adjust,14912.66
+MISC25-00060,MISC,2025-12-31,ftessier,Cancel accrual - do not reverse,do not reverse,7365.4
+MISC25-00061,MISC,2025-12-31,ftessier,Year-end sales adjustment per CFO request,"adjust, per cfo",60000.0

@@ -1,0 +1,65 @@
+table dim_store
+	lineageTag: e7875c0b-b639-5e96-9229-c806c45373d1
+
+	column store_id
+		dataType: string
+		lineageTag: 23f9ab92-b461-5be6-8f2f-6e681934f908
+		summarizeBy: none
+		sourceColumn: store_id
+		isHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_name
+		dataType: string
+		lineageTag: a28b783b-0d1b-52df-9948-639084f753c5
+		summarizeBy: none
+		sourceColumn: store_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 75116d6b-bb4f-5c37-b441-31b1b08d42b7
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	column channel
+		dataType: string
+		lineageTag: e5e5ca37-a521-5f94-bc70-5ec159af21b8
+		summarizeBy: none
+		sourceColumn: channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column opened
+		dataType: int64
+		formatString: 0
+		lineageTag: a07b17f7-ef2a-575c-bcac-d84a299f6b18
+		summarizeBy: none
+		sourceColumn: opened
+
+		annotation SummarizationSetBy = Automatic
+
+	column surface_m2
+		dataType: int64
+		formatString: #,0
+		lineageTag: f8cb0f70-87ab-51a0-83bb-169f679c7431
+		summarizeBy: sum
+		sourceColumn: surface_m2
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_store = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "dim_store.csv"), [Delimiter = ",", Columns = 6, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"store_id", type text}, {"store_name", type text}, {"region", type text}, {"channel", type text}, {"opened", Int64.Type}, {"surface_m2", Int64.Type}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
