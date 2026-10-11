@@ -26,3 +26,6 @@ __pycache__/
 # OS
 Thumbs.db
 .DS_Store
+
+# Personal publishing guide (not part of the website)
+GUIDE_PUBLICATION.md
