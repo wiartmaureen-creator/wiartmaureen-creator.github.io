@@ -4,7 +4,7 @@ I turn data into decisions: analyses, reporting and dashboards that help manager
 improvements backed by numbers. Six years in insurance, banking and audit, now applying SQL, Python,
 R, Power BI and Excel to real business questions.
 
-🌐 **Website:** [`index.html`](index.html) (published with GitHub Pages)
+🌐 **Website:** https://wiartmaureen-creator.github.io (GitHub Pages)
 
 ## Projects
 
