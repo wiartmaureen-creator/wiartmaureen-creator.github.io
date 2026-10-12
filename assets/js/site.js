@@ -1,28 +1,39 @@
-// Shared page behaviour: theme toggle, e-mail link and footer year.
+// Shared page behaviour: mobile menu, e-mail links and footer year.
 (function () {
   "use strict";
 
-  var STORAGE_KEY = "portfolio-theme";
-  var root = document.documentElement;
+  var DESKTOP_QUERY = "(min-width: 960px)";
 
-  function systemTheme() {
-    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark" : "light";
-  }
+  // The mobile menu opens under the navigation bar and closes on link click,
+  // on Escape, or when the window becomes wide enough for the full navigation.
+  function setupMobileMenu() {
+    var toggle = document.querySelector("[data-menu-toggle]");
+    var menu = document.querySelector("[data-mobile-menu]");
+    if (!toggle || !menu) return;
 
-  function saveTheme(theme) {
-    try { localStorage.setItem(STORAGE_KEY, theme); } catch (error) { /* not persisted */ }
-  }
+    function setOpen(open) {
+      menu.classList.toggle("is-open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+    }
 
-  function setupThemeToggle() {
-    document.querySelectorAll("[data-theme-toggle]").forEach(function (button) {
-      button.addEventListener("click", function () {
-        var current = root.getAttribute("data-theme") || systemTheme();
-        var next = current === "dark" ? "light" : "dark";
-        root.setAttribute("data-theme", next);
-        saveTheme(next);
-      });
+    toggle.addEventListener("click", function () {
+      setOpen(toggle.getAttribute("aria-expanded") !== "true");
     });
+    menu.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", function () { setOpen(false); });
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    if (window.matchMedia) {
+      var desktop = window.matchMedia(DESKTOP_QUERY);
+      var onChange = function () { if (desktop.matches) setOpen(false); };
+      if (desktop.addEventListener) desktop.addEventListener("change", onChange);
+      else if (desktop.addListener) desktop.addListener(onChange);
+    }
   }
 
   // The address is assembled here so it is not sitting in the HTML for scrapers.
@@ -40,7 +51,7 @@
     });
   }
 
-  setupThemeToggle();
+  setupMobileMenu();
   setupEmailLinks();
   setupYear();
 })();
