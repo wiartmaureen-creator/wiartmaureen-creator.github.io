@@ -6,6 +6,9 @@ R, Power BI and Excel to real business questions.
 
 🌐 **Website:** https://wiartmaureen-creator.github.io (GitHub Pages)
 
+📍 **Availability:** open to data analyst roles, remote, hybrid or on-site, and to relocation in
+Europe, Asia or Canada. Based in Lille, France.
+
 ## Projects
 
 Each project starts from a decision someone has to make and ends with a recommendation and its impact.
@@ -20,7 +23,8 @@ Each project starts from a decision someone has to make and ends with a recommen
 
 ## About this repository
 
-- `index.html` and `assets/`: the website (plain HTML, CSS and JavaScript, no build step, no tracking).
+- `index.html` and `assets/`: the website (plain HTML, CSS and JavaScript, no build step, no tracking),
+  designed mobile first.
 - `projects/<name>/`: one folder per project, with its case-study page (`index.html`), a `README.md`,
   the code, the data and the results. Each project can be rerun from its README.
 - `tools/capture_code_outputs.py`: reruns a piece of each project and saves what the code actually
@@ -32,4 +36,4 @@ No client or employer data is used.
 
 ## Contact
 
-[LinkedIn](https://www.linkedin.com/in/maureen-w-686092191)
+[LinkedIn](https://www.linkedin.com/in/maureen-w-686092191) · [Website](https://wiartmaureen-creator.github.io/#contact)
